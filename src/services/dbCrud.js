@@ -211,10 +211,11 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
           const tx = db.transaction(storeName, 'readwrite');
           const store = tx.objectStore(storeName);
           const category = store.get(categoryId);
+          // console.log(category)
 
           category.onsuccess = () => {
               const data = category.result;
-              console.log(data)
+              // console.log('category selected ',data)
               data.cate = newCategoryName; 
               const requestUpdate = store.put(data);
 
@@ -239,22 +240,27 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
   });
 };
 
-export const updateTaskName = (storeName, categoryId, taskId  , newTaskName) => {
+export const updateTaskName = (storeName, categoryId, taskId , newTaskName) => {
   return new Promise((resolve, reject) => {
       const request = indexedDB.open('myCategory');
+
+      console.log('from db', storeName, categoryId,taskId, newTaskName)
 
       request.onsuccess = () => {
           const db = request.result;
           const tx = db.transaction(storeName, 'readwrite');
           const store = tx.objectStore(storeName);
           const category = store.get(categoryId);
+          // console.log('category is',category)
 
           category.onsuccess = () => {
               const data = category.result;
+               console.log('success is running')
+              // console.log("data to edit is ",data)
               const task = data.tasks.find(task => task.id === taskId);
 
               if (task) {
-                  task.name = newTaskName; 
+                  task.todo = newTaskName; 
                   const requestUpdate = store.put(data);
 
                   requestUpdate.onsuccess = () => {

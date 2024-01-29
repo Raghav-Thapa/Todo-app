@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.sideBar{
+    width: 20%;
+    height: 100vh;
+    /* border-right: 5px solid whitesmoke; */
+    box-shadow: 0px 0px 40px 0px rgb(115, 113, 113);
+
+}
+
+.sideBar h1{
+    text-align: center;
+    padding-top: 10%;
+    font-family: 'Lobster', sans-serif;
+    font-size: 40px;
+}
+.sideBar h3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px;
+    padding-left: 15%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin-top: 10%;
+    font-weight: bold;
+    background-image: linear-gradient(to right, #9cd0dc , white);
+}
+
+body{
+    background-image: linear-gradient(to right, #e0cee6 , white);
+}
+
+.categoryList{
+    margin-top: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 19px;
+}
+
+.eachCategory{
+    margin-bottom: 15px;
+}
+
+.eachCategory:hover{
+    background-image: linear-gradient(to right, #e0cee6 , white);
+}
+
+.eachCategory.selected {
+    background-image: linear-gradient(to right, #e0cee6 , white);
+}
+
+.mainContent{
+    width: 80%;
+}
+
+.wholeContent{
+    display: flex;
+}
+
+.mainContent h1{
+    padding-left: 7%;
+    padding-top: 3%;
+    font-family: 'Lobster', sans-serif;
+    font-size: 40px;
+}
+
+.taskList{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    padding-left: 5%;
+}
+
+.todoImage{
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    margin-left: 40%;
+    margin-top: -10%;
+}

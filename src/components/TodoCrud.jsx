@@ -22,7 +22,7 @@ export default function useTodo() {
         const newCategory = {
             cate: inputCategory,
             tasks: [],
-            id: Math.random(),
+            id: Math.floor(Math.random().toFixed(2)*100),
             inputTask: ''
         }
         setCategory([...category, newCategory])
@@ -46,7 +46,7 @@ export default function useTodo() {
 
     const handleCreateTask = async (categoryId) => {
         const newTask = {
-            id: Math.random(),
+            id: Math.floor(Math.random().toFixed(2)*100),
             todo: category.find((cat) => cat.id === categoryId).inputTask,
         };
         setCategory(category.map(cat => cat.id === categoryId ?
@@ -91,28 +91,32 @@ export default function useTodo() {
 
     const handleEditTask = async (taskId) => {
         // console.log(`Editing task with ID: ${taskId}`); 
-        if (taskId === null || taskId === undefined) {
-            console.error('Task ID is null or undefined');
-            return;
-        }
+        // if (taskId === null || taskId === undefined) {
+        //     console.error('Task ID is null or undefined');
+        //     return; 
+        // }
     
         setEditingTask(taskId);
-        console.log(`editingTask: ${editingTask}`); 
+        // console.log(`editingTask: ${editingTask}`); 
         const categories = await getStoreData(Stores.Categories);
         for (let category of categories) {
             const taskToEdit = category.tasks.find(task => task.id === taskId);
             if (taskToEdit) {
                 // console.log(`Found task:`, taskToEdit); 
                 setNewTaskName(taskToEdit.todo);
+                // console.log('task name is',typeof newTaskName)
             }
         }
     }
-    // useEffect(() => {
-    //     console.log(`editingTask: ${editingTask}`);
-    // }, [editingTask]);
+    useEffect(() => {
+        console.log(`editingTask: ${editingTask}`);
+    }, [editingTask]);
     
     const handleSaveTask = async (categoryId, taskId, newTaskName) => {
         try {
+            // console.log('handle save', typeof newTaskName)
+            console.log('category id',categoryId)
+            console.log('task id',taskId)
             await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
             loadCategories();
             setEditingTask(null);
@@ -162,10 +166,9 @@ export default function useTodo() {
         handleCreateTask,
         handleSaveCategory,
         setEditingTask,
+        editingTask,
         handleEditTask,
         handleSaveTask,
-        editingTask,
-        setEditingTask,
         newTaskName,
         setNewTaskName
         

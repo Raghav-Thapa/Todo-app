@@ -11,6 +11,7 @@ export default function TodoList({
     handleEditTask,
     editingTask,
     newTaskName,
+    setNewTaskName,
     handleDeleteCategory,
     editingCategory,
     setEditingCategory,
@@ -20,11 +21,9 @@ export default function TodoList({
     updateCategoryName,
     loadCategories }) {
 
-        const {setEditingTask} = useTodo()
-        const {setNewTaskName} = useTodo()
 
         const { handleSaveCategory } = useTodo();
-        const {handleSaveTask} = useTodo()
+        const { handleSaveTask } = useTodo();
 
 
    
@@ -57,7 +56,7 @@ export default function TodoList({
                             <td className="border border-slate-700">
                               
                               <TextInput
-                                    key={cate.id}
+                                    parent={cate.id}
                                     cate={cate.cate}
                                     inputTask={cate.inputTask}
                                     handleChange={(e) => {
@@ -73,9 +72,13 @@ export default function TodoList({
                                     handleCreateTask={() => handleCreateTask(cate.id)}
                                     handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
                                     tasks={cate.tasks}
-                                    handleEditTask={() => handleEditTask(cate.id, taskId)}
+                                    handleEditTask={(taskId) => handleEditTask(taskId)}
+                                    newTaskName={newTaskName}
+                                    setNewTaskName={setNewTaskName}
+                                    handleSaveTask={handleSaveTask}
+                                    editingTask={editingTask}
                                 />
-                                {editingTask === cate.tasks.id && (
+                                {/* {editingTask === cate.tasks.id && (
                                     <div>
                                         <input
                                             type="text"
@@ -89,9 +92,21 @@ export default function TodoList({
                                             Save
                                         </button>
                                     </div>
-                                )}
+                                )} */}
 
                             </td>
+                            {/* {editingCategory === cate.id && (
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={newCategoryName}
+                                            onChange={(e) => setNewCategoryName(e.target.value)}
+                                        />
+                                        <button onClick={() => handleSaveCategory(cate.id, newCategoryName)}>
+                                            Save
+                                        </button>
+                                    </div>
+                                )} */}
                             <td className=" border border-slate-700">
                             <button className="px-2 inline-flex text-xs leading-5
                       font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>Edit</button>

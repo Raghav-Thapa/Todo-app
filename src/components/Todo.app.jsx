@@ -14,9 +14,15 @@ export default function Todo() {
         editingCategory,
         newCategoryName,
         setNewCategoryName,
+        newTaskName,
+        setNewTaskName,
+        setEditingTask,
+        editingTask,
         setCategory,
         updateCategoryName,
         setEditingCategory,
+        handleEditTask,
+        handleSaveTask,
         loadCategories } = useTodo();
 
     return (
@@ -33,12 +39,18 @@ export default function Todo() {
                     category={category}
                     handleCreateTask={handleCreateTask}
                     handleDeleteTask={handleDeleteTask}
+                    handleEditTask={handleEditTask}
                     handleEditCategory={handleEditCategory}
                     handleDeleteCategory={handleDeleteCategory}
                     editingCategory={editingCategory}
                     newCategoryName={newCategoryName}
                     setNewCategoryName={setNewCategoryName}
+                    newTaskName={newTaskName}
+                    setNewTaskName={setNewTaskName}
+                    setEditingTask= {setEditingTask}
+                    editingTask={editingTask}
                     setCategory={setCategory}
+                    handleSaveTask={handleSaveTask}
                     updateCategoryName={updateCategoryName}
                     loadCategories={loadCategories}
                     />

@@ -1,6 +1,7 @@
 import Modal from "./Modal"
 import { useState } from "react";
 import useTodo from "./TodoCrud";
+import { useEffect } from "react";
 
 export function TextInput({
     handleChange,
@@ -9,12 +10,24 @@ export function TextInput({
     inputTask,
     handleCreateTask,
     handleDeleteTask,
+    handleEditTask,
+    handleSaveTask,
+    setEditingTask,
+    newTaskName,
     tasks,
+    editingTask,
+    setNewTaskName,
+    parent,
     children }) {
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+        const [editing, setEditing] = useState(null)
 
-    const {handleEditTask} = useTodo()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    // console.log("test for editing",editingTask)
+
+
+    // const {setNewTaskName} = useTodo()
+    // const {handleEditTask} = useTodo()
 
     return (
         <div>
@@ -36,22 +49,44 @@ export function TextInput({
                     </button>
                 </Modal>
             )}
-            <ul className="todolists m-5">
+            <h1>My Tasks</h1>
+            <ul className="todolists mb-5 mt-8">
                 {tasks.map((todo) => (
-                    <li className="task" key={todo.id}>
+                    <li className="task mb-5" key={todo.id}>
                         <input type="checkbox" name="" id="" /> {todo.todo}
-                        <button onClick={() => handleDeleteTask(todo.id)} className="ms-5 px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-red-200 text-red-800">Delete</button>
-                        <button className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
-                                console.log(`Edit button clicked for task with ID: ${todo.id}`);
-                                handleEditTask(todo.id);
-                            }}>Edit</button>
+
+                        <>
+                            <button onClick={() => handleDeleteTask(todo.id)} className="ms-96 me-5 px-2 inline-flex text-xs leading-5
+                font-semibold rounded-full bg-red-200 text-red-800">Delete</button>
+                            <button className="px-2 inline-flex text-xs leading-5
+                font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
+                                    console.log(`Edit button clicked for task with ID: ${todo.id}`);
+                                    handleEditTask(todo.id);
+                                    setEditing(todo.id)
+                                }}>Edit</button>
+                       
+                        {editing === todo.id && (
+                            <div>
+                                <input
+                                    type="text"
+                                    value={newTaskName}
+                                    onChange={(e) => setNewTaskName(e.target.value)}
+                                />
+                                <button onClick={() => {
+                                    handleSaveTask(parent, todo.id, newTaskName);
+                                    setEditing(null);
+                                }}>
+                                    Save
+                                </button>
+                            </div>
+                        )}
+
+                        </>
                     </li>
                 ))}
             </ul>
-            <button className=" ms-5 mb-5 px-2 inline-flex text-lg leading-5
-                      font-semibold rounded-full bg-slate-200 text-green-800" onClick={() => setIsModalOpen(true)}>Add task</button>
+            <button className="ms-10 w-48 h-10 text-lg
+                 font-semibold rounded-full bg-sky-700 text-white" onClick={() => setIsModalOpen(true)}>Add task</button>
         </div>
     )
 }
