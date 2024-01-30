@@ -240,11 +240,11 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
   });
 };
 
-export const updateTaskName = (storeName, categoryId, taskId , newTaskName) => {
+export const updateTaskName = (storeName, categoryId, taskId , newTaskName, status) => {
   return new Promise((resolve, reject) => {
       const request = indexedDB.open('myCategory');
 
-      console.log('from db', storeName, categoryId,taskId, newTaskName)
+      console.log('from db', storeName, categoryId,taskId, newTaskName, status)
 
       request.onsuccess = () => {
           const db = request.result;
@@ -261,6 +261,7 @@ export const updateTaskName = (storeName, categoryId, taskId , newTaskName) => {
 
               if (task) {
                   task.todo = newTaskName; 
+                  task.status = status;
                   const requestUpdate = store.put(data);
 
                   requestUpdate.onsuccess = () => {

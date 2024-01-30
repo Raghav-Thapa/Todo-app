@@ -80,11 +80,23 @@ body{
 .task{
     border: 2px solid whitesmoke;
     width: 80%;
-    height: 80px;
+    height: 85px;
     padding: 10px;
     border-radius: 12px;
+    margin-left: 10px;
     box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
 }
+
+/* .task{
+    border: 2px solid whitesmoke;
+    width: 80%;
+    height: 110px;
+    padding: 10px;
+    border-radius: 12px;
+    margin-left: 10px;
+    box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
+} */
+
 
 .tablee{
     width: 900px;

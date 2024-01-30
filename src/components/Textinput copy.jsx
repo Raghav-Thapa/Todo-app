@@ -24,6 +24,37 @@ export function TextInput({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [pendingtaskStatus, setpendingTaskStatus] = useState(false)
+    const [startedtaskStatus, setstartedTaskStatus] = useState(false)
+    const [completedtaskStatus, setcompletedTaskStatus] = useState(false)
+
+    const [selecteTaskId, setSelectedTaskId] = useState(null);
+
+
+    const handleClickTaskStatusPending = (id) => {
+        setpendingTaskStatus(true)
+        setstartedTaskStatus(false)
+        setcompletedTaskStatus(false)
+        setSelectedTaskId(id);
+    }
+
+    const handleClickTaskStatusStarted = (id) => {
+        setpendingTaskStatus(false)
+        setstartedTaskStatus(true)
+        setcompletedTaskStatus(false)
+        setSelectedTaskId(id);
+    }
+
+    const handleClickTaskStatusCompleted = (id) => {
+        setpendingTaskStatus(false)
+        setstartedTaskStatus(false)
+        setcompletedTaskStatus(true)
+        setSelectedTaskId(id);
+    }
+
+    
+
+
     return (
         <div>
             {/* <h2>{cate}</h2> */}
@@ -51,6 +82,27 @@ export function TextInput({
                 {tasks.map((todo) => (
                     <li className="task mb-5" key={todo.id}>
                         <input type="checkbox" name="" id="" /> {todo.todo} 
+                        <br />
+                        <>
+                        <button onClick={() => {
+                            handleClickTaskStatusPending(todo.id);
+                        }}
+                        
+                            className={selecteTaskId === todo.id && pendingtaskStatus ? "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800" : "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800" }>Pending</button>
+
+                            <button onClick={() => {
+                            handleClickTaskStatusStarted(todo.id);
+                        }}
+                            className={selecteTaskId === todo.id && startedtaskStatus ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800" }>Started</button>
+
+                            <button onClick={() => {
+                            handleClickTaskStatusCompleted(todo.id);
+                        }}
+                            className={selecteTaskId === todo.id && completedtaskStatus ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800" }>Completed</button>
+
+                            </> 
+
+
                         <>
                             <br />
                             <button onClick={() => handleDeleteTask(todo.id)} className="ms-5 me-3 px-2  text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800">Delete</button>

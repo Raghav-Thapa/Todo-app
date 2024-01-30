@@ -57,6 +57,7 @@ export default function useTodo() {
         const newTask = {
             id: Math.floor(Math.random().toFixed(2)*100),
             todo: category.find((cat) => cat.id === categoryId).inputTask,
+            status:'pending',
         };
         setCategory(category.map(cat => cat.id === categoryId ?
             { ...cat, tasks: [...cat.tasks, newTask], inputTask: "" } : cat));
@@ -109,7 +110,7 @@ export default function useTodo() {
         for (let category of categories) {
             const taskToEdit = category.tasks.find(task => task.id === taskId);
             if (taskToEdit) {
-                // console.log(`Found task:`, taskToEdit); 
+                // console.log(`Foun    d task:`, taskToEdit); 
                 setNewTaskName(taskToEdit.todo);
                loadCategories();
                 // console.log('task name is',typeof newTaskName)
@@ -127,6 +128,7 @@ export default function useTodo() {
             // console.log('handle save', typeof newTaskName)
             console.log('category id',categoryId)
             console.log('task id',taskId)
+            console.log("status", status)
             await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
            loadCategories();
             setEditingTask(null);
