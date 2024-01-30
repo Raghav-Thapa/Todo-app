@@ -47,7 +47,7 @@ export default function TodoList({
                                             value={newCategoryName}
                                             onChange={(e) => setNewCategoryName(e.target.value)}
                                         />
-                                        <button onClick={() => handleSaveCategory(cate.id, newCategoryName)}>
+                                        <button onClick={() => {handleSaveCategory(cate.id, newCategoryName);window.location.reload()}}>
                                             Save
                                         </button>
                                     </div>

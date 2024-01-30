@@ -24,7 +24,7 @@ export function TextInput({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // const { setNewTaskName } = useTodo()
+  
     // const { handleEditTask } = useTodo()
     // const { handleSaveTask } = useTodo()
 
@@ -77,6 +77,7 @@ export function TextInput({
                                         handleSaveTask(parent, todo.id, newTaskName);
                                         console.log('from  button click', parent, todo.id, newTaskName)
                                         setEditing(null);
+                                        // window.location.reload();
                                     }}>
                                         Save
                                     </button>

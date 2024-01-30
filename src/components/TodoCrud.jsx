@@ -70,9 +70,7 @@ export default function useTodo() {
         setCategory(categories);
     }
 
-    useEffect(() => {
-        loadCategories();
-    }, [])
+  
 
 
     const handleDeleteTask = async (categoryId, taskId) => {
@@ -104,13 +102,16 @@ export default function useTodo() {
             if (taskToEdit) {
                 // console.log(`Found task:`, taskToEdit); 
                 setNewTaskName(taskToEdit.todo);
+                loadCategories();
                 // console.log('task name is',typeof newTaskName)
             }
         }
     }
-    useEffect(() => {
-        console.log(`editingTask: ${editingTask}`);
-    }, [editingTask]);
+    // useEffect(() => {
+    //     console.log(`editingTask: ${editingTask}`);
+    // }, [editingTask]);
+
+
     
     const handleSaveTask = async (categoryId, taskId, newTaskName) => {
         try {
@@ -118,7 +119,7 @@ export default function useTodo() {
             console.log('category id',categoryId)
             console.log('task id',taskId)
             await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
-            loadCategories();
+            // loadCategories();
             setEditingTask(null);
             setNewTaskName('');
         } catch (error) {
@@ -146,6 +147,10 @@ export default function useTodo() {
         setEditingCategory(null);
         setNewCategoryName(''); 
     };
+
+    useEffect(() => {
+        loadCategories();
+    }, [newCategoryName])
 
     return {
         inputCategory,

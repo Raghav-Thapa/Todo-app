@@ -5,22 +5,21 @@ import { NavLink } from "react-router-dom";
 import todoImg from "../assets/todo.png"
 import { CategoryInput } from "../components/Textinput";
 
-const ViewCategories = () => {
+const ViewCategories = (
+    ) => {
     const { inputCategory,
         handleCategoryChange,
         handleAddCategory,
+        handleEditTask,
         category,
         handleCreateTask,
         handleDeleteTask,
-        handleEditCategory,
-        handleDeleteCategory,
-        editingCategory,
-        newCategoryName,
-        setNewCategoryName,
         setCategory,
-        updateCategoryName,
         setEditingCategory,
-        loadCategories } = useTodo();
+        handleSaveTask, 
+        editingTask,
+        newTaskName,
+        setNewTaskName} = useTodo();
 
     const [viewTask, setViewTask] = useState(false)
 
@@ -77,8 +76,9 @@ const ViewCategories = () => {
                 <img className="todoImage" src={todoImg} alt="" />
                 {category.map((cate) => (
                     <div className="taskList" key={cate.id}>
-                        {viewTask && cate.id === selectedCategoryId && <TextInput
-                            key={cate.id}
+                        {viewTask && cate.id === selectedCategoryId && 
+                        <TextInput
+                            parent ={cate.id}
                             cate={cate.cate}
                             inputTask={cate.inputTask}
                             handleChange={(e) => {
@@ -90,11 +90,16 @@ const ViewCategories = () => {
                                             : prevCat
                                     )
                                 )
-                            }}
-                            handleCreateTask={() => handleCreateTask(cate.id)}
-                            handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
-                            tasks={cate.tasks}
-                        />
+                                }}
+                                handleCreateTask={() => handleCreateTask(cate.id)}
+                                handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
+                                tasks={cate.tasks}
+                                handleEditTask={(taskId) => handleEditTask(taskId)}
+                                newTaskName={newTaskName}
+                                setNewTaskName={setNewTaskName}
+                                handleSaveTask={handleSaveTask}
+                                editingTask={editingTask}
+                            />
                         }
                     </div>
                 ))}
