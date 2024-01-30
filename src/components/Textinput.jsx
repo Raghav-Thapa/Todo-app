@@ -24,9 +24,6 @@ export function TextInput({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-  
-    // const { handleEditTask } = useTodo()
-    // const { handleSaveTask } = useTodo()
 
     return (
         <div>
@@ -42,9 +39,9 @@ export function TextInput({
                     />
                     <button className="ms-3 px-2 inline-flex text-xs leading-5
                 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
-                        handleCreateTask();
-                        setIsModalOpen(false);
-                    }}>
+                            handleCreateTask();
+                            setIsModalOpen(false);
+                        }}>
                         Save task
                     </button>
                 </Modal>
@@ -57,10 +54,8 @@ export function TextInput({
 
                         <>
                             <br />
-                            <button onClick={() => handleDeleteTask(todo.id)} className="ms-5 me-3 px-2  text-xs leading-5
-                font-semibold rounded-full bg-red-200 text-red-800">Delete</button>
-                            <button className="px-2 inline-flex text-xs leading-5
-                font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
+                            <button onClick={() => handleDeleteTask(todo.id)} className="ms-5 me-3 px-2  text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800">Delete</button>
+                            <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
                                     console.log(`Edit button clicked for task with ID: ${todo.id}`);
                                     handleEditTask(todo.id);
                                     setEditing(todo.id)
@@ -77,7 +72,6 @@ export function TextInput({
                                         handleSaveTask(parent, todo.id, newTaskName);
                                         console.log('from  button click', parent, todo.id, newTaskName)
                                         setEditing(null);
-                                        // window.location.reload();
                                     }}>
                                         Save
                                     </button>
@@ -109,7 +103,7 @@ export function CategoryInput({
                 onChange={handleCategoryChange}
             />
             <button className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-slate-200 text-green-800 ms-1"  onClick={() => {handleAddCategory(); setShowAddCategory(false);}}>Add Category</button>
+                      font-semibold rounded-full bg-slate-200 text-green-800 ms-1"  onClick={() => { handleAddCategory(); setShowAddCategory(false); }}>Add Category</button>
         </>
     );
 }

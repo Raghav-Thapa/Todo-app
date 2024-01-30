@@ -6,7 +6,7 @@ import todoImg from "../assets/todo.png"
 import { CategoryInput } from "../components/Textinput";
 
 const ViewCategories = (
-    ) => {
+) => {
     const { inputCategory,
         handleCategoryChange,
         handleAddCategory,
@@ -16,10 +16,10 @@ const ViewCategories = (
         handleDeleteTask,
         setCategory,
         setEditingCategory,
-        handleSaveTask, 
+        handleSaveTask,
         editingTask,
         newTaskName,
-        setNewTaskName} = useTodo();
+        setNewTaskName } = useTodo();
 
     const [viewTask, setViewTask] = useState(false)
 
@@ -30,7 +30,7 @@ const ViewCategories = (
         setSelectedCategoryId(id);
 
     };
-    const[showAddCategory, setShowAddCategory] = useState(false)
+    const [showAddCategory, setShowAddCategory] = useState(false)
 
     const handleClickAddCategory = () => {
         setShowAddCategory(true)
@@ -43,17 +43,17 @@ const ViewCategories = (
             <div className="sideBar">
                 <h1>Todo List</h1>
                 <h3> <i style={{ marginRight: '15px' }} class="fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i class="ms-3 fa-solid fa-circle-plus"></i></button></h3>
-                
+
                 <div className="ms-2">
-                {showAddCategory &&          
-                <CategoryInput
-                    inputCategory={inputCategory}
-                    handleCategoryChange={handleCategoryChange}
-                    handleAddCategory={handleAddCategory}
-                    setEditingCategory={setEditingCategory}
-                    setShowAddCategory={setShowAddCategory}
-                     />}
-                    </div>
+                    {showAddCategory &&
+                        <CategoryInput
+                            inputCategory={inputCategory}
+                            handleCategoryChange={handleCategoryChange}
+                            handleAddCategory={handleAddCategory}
+                            setEditingCategory={setEditingCategory}
+                            setShowAddCategory={setShowAddCategory}
+                        />}
+                </div>
 
                 <div className="categoryList">
                     {category.map((cate) => (
@@ -76,20 +76,20 @@ const ViewCategories = (
                 <img className="todoImage" src={todoImg} alt="" />
                 {category.map((cate) => (
                     <div className="taskList" key={cate.id}>
-                        {viewTask && cate.id === selectedCategoryId && 
-                        <TextInput
-                            parent ={cate.id}
-                            cate={cate.cate}
-                            inputTask={cate.inputTask}
-                            handleChange={(e) => {
-                                const newInputTask = e.target.value;
-                                setCategory((prevCategory) =>
-                                    prevCategory.map((prevCat) =>
-                                        prevCat.id === cate.id
-                                            ? { ...prevCat, inputTask: newInputTask }
-                                            : prevCat
+                        {viewTask && cate.id === selectedCategoryId &&
+                            <TextInput
+                                parent={cate.id}
+                                cate={cate.cate}
+                                inputTask={cate.inputTask}
+                                handleChange={(e) => {
+                                    const newInputTask = e.target.value;
+                                    setCategory((prevCategory) =>
+                                        prevCategory.map((prevCat) =>
+                                            prevCat.id === cate.id
+                                                ? { ...prevCat, inputTask: newInputTask }
+                                                : prevCat
+                                        )
                                     )
-                                )
                                 }}
                                 handleCreateTask={() => handleCreateTask(cate.id)}
                                 handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}

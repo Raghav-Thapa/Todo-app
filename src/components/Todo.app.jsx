@@ -29,16 +29,16 @@ export default function Todo() {
     return (
         <>
             <div className="mt-5 ms-72 max-w-5xl text-center text-lg border-solid border-2 border-sky-500 ">
-            <NavLink to='/'> 
-    <button className="ms-10 me-20 mt-10 w-48 h-10 text-lg
-                 font-semibold rounded-full bg-sky-700 text-white">Home</button> 
-    </NavLink>
+                <NavLink to='/'>
+                    <button className="ms-10 me-20 mt-10 w-48 h-10 text-lg
+                 font-semibold rounded-full bg-sky-700 text-white">Home</button>
+                </NavLink>
 
-                <CategoryInput
+                {/* <CategoryInput
                     inputCategory={inputCategory}
                     handleCategoryChange={handleCategoryChange}
                     handleAddCategory={handleAddCategory}
-                    setEditingCategory={setEditingCategory} />
+                    setEditingCategory={setEditingCategory} /> */}
 
                 <TodoList
                     category={category}
@@ -52,13 +52,13 @@ export default function Todo() {
                     setNewCategoryName={setNewCategoryName}
                     newTaskName={newTaskName}
                     setNewTaskName={setNewTaskName}
-                    setEditingTask= {setEditingTask}
+                    setEditingTask={setEditingTask}
                     editingTask={editingTask}
                     setCategory={setCategory}
                     handleSaveTask={handleSaveTask}
                     updateCategoryName={updateCategoryName}
                     loadCategories={loadCategories}
-                    />
+                />
             </div>
         </>
     )

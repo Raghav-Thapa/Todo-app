@@ -102,7 +102,7 @@ export default function useTodo() {
             if (taskToEdit) {
                 // console.log(`Found task:`, taskToEdit); 
                 setNewTaskName(taskToEdit.todo);
-                loadCategories();
+               loadCategories();
                 // console.log('task name is',typeof newTaskName)
             }
         }
@@ -119,9 +119,10 @@ export default function useTodo() {
             console.log('category id',categoryId)
             console.log('task id',taskId)
             await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
-            // loadCategories();
+           loadCategories();
             setEditingTask(null);
             setNewTaskName('');
+            
         } catch (error) {
             console.error(`Failed to update task: ${error.message}`);
         }
@@ -137,20 +138,24 @@ export default function useTodo() {
         const categoryToEdit = await getStoreDataForAddingTasks(Stores.Categories, categoryId);
         if (categoryToEdit) {
             setNewCategoryName(categoryToEdit.cate);
-            // loadCategories();
+            loadCategories();
         }
     }
 
     const handleSaveCategory = async (categoryId, newCategoryName) => {
-       await updateCategoryName(Stores.Categories, categoryId, newCategoryName);
+      try {
+        await updateCategoryName(Stores.Categories, categoryId, newCategoryName);
         loadCategories()
         setEditingCategory(null);
         setNewCategoryName(''); 
-    };
+    } catch (error) {
+        console.error(`Failed to update task: ${error.message}`);
+    }
+}
 
     useEffect(() => {
         loadCategories();
-    }, [newCategoryName])
+    }, [])
 
     return {
         inputCategory,
