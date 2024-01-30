@@ -67,7 +67,6 @@ export function TextInput({
     }, []);
 
 
-
     return (
         <div>
             {/* <h2>{cate}</h2> */}
@@ -94,7 +93,11 @@ export function TextInput({
             <ul className="todolists mb-5 mt-8">
                 {tasks.map((todo) => (
                     <li className="task mb-5" key={todo.id}>
-                        <input type="checkbox" name="" id="" /> {todo.todo}
+                        <input onClick={() => handleClickTaskStatusCompleted(todo.id)} 
+                        type="checkbox"
+                        checked={taskStatuses[todo.id] === 'completed'}  
+                        name="" 
+                        id="" /> {todo.todo}
                         <br />
                         <>
                             <button onClick={() => {
@@ -126,13 +129,13 @@ export function TextInput({
                             }}>Edit</button>
 
                             {editing === todo.id && (
-                                <div>
-                                    <input
+                                <div className="editTask">
+                                    <input className="border-4"
                                         type="text"
                                         value={newTaskName}
                                         onChange={(e) => setNewTaskName(e.target.value)}
                                     />
-                                    <button onClick={() => {
+                                    <button className="ms-2 me-3 px-2  text-lg leading-5 font-semibold rounded-full bg-sky-500 text-white   " onClick={() => {
                                         handleSaveTask(parent, todo.id, newTaskName);
                                         // console.log('from  button click', parent, todo.id, newTaskName)
                                         setEditing(null);
@@ -168,7 +171,7 @@ export function CategoryInput({
                 onChange={handleCategoryChange}
             />
             <button className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-slate-200 text-green-800 ms-1"  onClick={() => { handleAddCategory(); setShowAddCategory(false); }}>Add Category</button>
+                      font-semibold rounded-full bg-sky-600 text-white ms-1"  onClick={() => { handleAddCategory(); setShowAddCategory(false); }}>Add Category</button>
         </>
     );
 }

@@ -28,7 +28,7 @@ export default function Todo() {
 
     return (
         <>
-            <div className="mt-5 ms-72 max-w-5xl text-center text-lg border-solid border-2 border-sky-500 ">
+            <div className="mt-5 ms-32 max-w-5xl text-center text-lg">
                 <NavLink to='/'>
                     <button className="ms-10 me-20 mt-10 w-48 h-10 text-lg
                  font-semibold rounded-full bg-sky-700 text-white">Home</button>

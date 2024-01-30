@@ -99,8 +99,9 @@ body{
 
 
 .tablee{
-    width: 900px;
+    width: 1210px;
     background-image: linear-gradient(to right, #e0cee6 , white);
+    box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
 }
 
 .todoEdit{
@@ -115,4 +116,9 @@ body{
     justify-content: center ;
     border-radius: 20px;
     background-image: linear-gradient(to right, #a496a7 , rgb(200, 196, 196));
+}
+.editTask{
+    position: absolute;
+    margin-top: -2%;
+    margin-left: 9%;
 }
