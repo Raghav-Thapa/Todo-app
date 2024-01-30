@@ -77,7 +77,7 @@ body{
     margin-top: -10%;
 }
 
-.task{
+/* .task{
     border: 2px solid whitesmoke;
     width: 80%;
     height: 85px;
@@ -85,9 +85,9 @@ body{
     border-radius: 12px;
     margin-left: 10px;
     box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
-}
+} */
 
-/* .task{
+.task{
     border: 2px solid whitesmoke;
     width: 80%;
     height: 110px;
@@ -95,7 +95,7 @@ body{
     border-radius: 12px;
     margin-left: 10px;
     box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
-} */
+}
 
 
 .tablee{

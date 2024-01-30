@@ -121,14 +121,12 @@ export default function useTodo() {
     //     console.log(`editingTask: ${editingTask}`);
     // }, [editingTask]);
 
-
     
     const handleSaveTask = async (categoryId, taskId, newTaskName) => {
         try {
             // console.log('handle save', typeof newTaskName)
             console.log('category id',categoryId)
             console.log('task id',taskId)
-            console.log("status", status)
             await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
            loadCategories();
             setEditingTask(null);

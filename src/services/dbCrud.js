@@ -240,11 +240,11 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
   });
 };
 
-export const updateTaskName = (storeName, categoryId, taskId , newTaskName, status) => {
+export const updateTaskName = (storeName, categoryId, taskId , newTaskName) => {
   return new Promise((resolve, reject) => {
       const request = indexedDB.open('myCategory');
 
-      console.log('from db', storeName, categoryId,taskId, newTaskName, status)
+      // console.log('from db', storeName, categoryId,taskId, newTaskName)
 
       request.onsuccess = () => {
           const db = request.result;
@@ -260,8 +260,7 @@ export const updateTaskName = (storeName, categoryId, taskId , newTaskName, stat
               const task = data.tasks.find(task => task.id === taskId);
 
               if (task) {
-                  task.todo = newTaskName; 
-                  task.status = status;
+                  task.todo = newTaskName;
                   const requestUpdate = store.put(data);
 
                   requestUpdate.onsuccess = () => {
@@ -282,6 +281,92 @@ export const updateTaskName = (storeName, categoryId, taskId , newTaskName, stat
 
       request.onerror = () => {
           reject(request.error);
+      };
+  });
+};
+
+export const updateTaskStatus = (storeName,categoryId, taskId, status) => {
+  return new Promise((resolve, reject) => {
+      const request = indexedDB.open('myCategory');
+      console.log('from db', storeName, taskId, status)
+      request.onsuccess = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains(storeName)) {
+            reject(`Object store ${storeName} does not exist`);
+            return;
+        }
+          const tx = db.transaction(storeName, 'readwrite');
+          const store = tx.objectStore(storeName);
+          const category = store.get(categoryId);
+
+          category.onsuccess = () => {
+              const data = category.result;
+              const task = data.tasks.find(task => task.id === taskId);
+
+              if (task) {
+                  task.status = status;
+                  const requestUpdate = store.put(data);
+
+                  requestUpdate.onsuccess = () => {
+                      resolve(requestUpdate.result);
+                  };
+                  requestUpdate.onerror = () => {
+                      reject('Error updating task status');
+                  };
+              } else {
+                  reject('Task not found');
+              }
+          };
+          category.onerror = () => {
+              reject('Error retrieving category');
+          };
+      };
+      request.onerror = () => {
+          reject('Error opening database');
+      };
+  });
+};
+
+export const getTask = (storeName, categoryId, taskId) => {
+  return new Promise((resolve, reject) => {
+      const request = indexedDB.open('myCategory');
+
+      request.onsuccess = () => {
+          const db = request.result;
+
+          if (!db.objectStoreNames.contains(storeName)) {
+              reject(`Object store ${storeName} does not exist`);
+              return;
+          }
+
+          const tx = db.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const category = store.get(categoryId);
+
+          category.onsuccess = () => {
+              const data = category.result;
+
+              if (!data) {
+                  reject('Category not found');
+                  return;
+              }
+
+              const task = data.tasks.find(task => task.id === taskId);
+
+              if (task) {
+                  resolve(task);
+              } else {
+                  reject('Task not found');
+              }
+          };
+
+          category.onerror = () => {
+              reject('Error retrieving category');
+          };
+      };
+
+      request.onerror = () => {
+          reject('Error opening database');
       };
   });
 };
