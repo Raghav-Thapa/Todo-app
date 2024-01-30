@@ -24,12 +24,14 @@ export function TextInput({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    
 
     return (
         <div>
             {/* <h2>{cate}</h2> */}
             {isModalOpen && (
                 <Modal open={isModalOpen}>
+                    
                     <input className="border-4"
                         type="text"
                         name="todo"
@@ -93,6 +95,8 @@ export function CategoryInput({
     handleCategoryChange,
     handleAddCategory,
     setShowAddCategory }) {
+
+     
     return (
         <>
             <input className="mt-5 border-4"

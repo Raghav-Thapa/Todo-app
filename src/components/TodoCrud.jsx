@@ -19,6 +19,10 @@ export default function useTodo() {
     const [newCategoryName, setNewCategoryName] = useState('');
 
     const handleAddCategory = async () => {
+        if(inputCategory.trim() === "") {
+            alert("Please enter a category.");
+            return;
+        }
         const newCategory = {
             cate: inputCategory,
             tasks: [],
@@ -45,6 +49,11 @@ export default function useTodo() {
     }
 
     const handleCreateTask = async (categoryId) => {
+        const categoryToTest = category.find((cat) => cat.id === categoryId);
+        if(categoryToTest.inputTask.trim() === "") {
+            alert("Please enter a task.");
+            return;
+        }
         const newTask = {
             id: Math.floor(Math.random().toFixed(2)*100),
             todo: category.find((cat) => cat.id === categoryId).inputTask,
