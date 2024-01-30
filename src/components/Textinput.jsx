@@ -10,24 +10,23 @@ export function TextInput({
     inputTask,
     handleCreateTask,
     handleDeleteTask,
-    handleEditTask,
-    handleSaveTask,
     setEditingTask,
     newTaskName,
+    setNewTaskName,
+    handleEditTask,
+    handleSaveTask,
     tasks,
     editingTask,
-    setNewTaskName,
     parent,
     children }) {
 
-        const [editing, setEditing] = useState(null)
+    const [editing, setEditing] = useState(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // console.log("test for editing",editingTask)
 
-
-    // const {setNewTaskName} = useTodo()
-    // const {handleEditTask} = useTodo()
+    // const { setNewTaskName } = useTodo()
+    // const { handleEditTask } = useTodo()
+    // const { handleSaveTask } = useTodo()
 
     return (
         <div>
@@ -41,7 +40,8 @@ export function TextInput({
                         placeholder="Enter your task"
                         onChange={handleChange}
                     />
-                    <button onClick={() => {
+                    <button className="ms-3 px-2 inline-flex text-xs leading-5
+                font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
                         handleCreateTask();
                         setIsModalOpen(false);
                     }}>
@@ -56,7 +56,8 @@ export function TextInput({
                         <input type="checkbox" name="" id="" /> {todo.todo}
 
                         <>
-                            <button onClick={() => handleDeleteTask(todo.id)} className="ms-96 me-5 px-2 inline-flex text-xs leading-5
+                            <br />
+                            <button onClick={() => handleDeleteTask(todo.id)} className="ms-5 me-3 px-2  text-xs leading-5
                 font-semibold rounded-full bg-red-200 text-red-800">Delete</button>
                             <button className="px-2 inline-flex text-xs leading-5
                 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => {
@@ -64,22 +65,23 @@ export function TextInput({
                                     handleEditTask(todo.id);
                                     setEditing(todo.id)
                                 }}>Edit</button>
-                       
-                        {editing === todo.id && (
-                            <div>
-                                <input
-                                    type="text"
-                                    value={newTaskName}
-                                    onChange={(e) => setNewTaskName(e.target.value)}
-                                />
-                                <button onClick={() => {
-                                    handleSaveTask(parent, todo.id, newTaskName);
-                                    setEditing(null);
-                                }}>
-                                    Save
-                                </button>
-                            </div>
-                        )}
+
+                            {editing === todo.id && (
+                                <div>
+                                    <input
+                                        type="text"
+                                        value={newTaskName}
+                                        onChange={(e) => setNewTaskName(e.target.value)}
+                                    />
+                                    <button onClick={() => {
+                                        handleSaveTask(parent, todo.id, newTaskName);
+                                        console.log('from  button click', parent, todo.id, newTaskName)
+                                        setEditing(null);
+                                    }}>
+                                        Save
+                                    </button>
+                                </div>
+                            )}
 
                         </>
                     </li>
@@ -94,7 +96,8 @@ export function TextInput({
 export function CategoryInput({
     inputCategory,
     handleCategoryChange,
-    handleAddCategory }) {
+    handleAddCategory,
+    setShowAddCategory }) {
     return (
         <>
             <input className="mt-5 border-4"
@@ -105,7 +108,7 @@ export function CategoryInput({
                 onChange={handleCategoryChange}
             />
             <button className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-slate-200 text-green-800 ms-5" onClick={handleAddCategory}>Add Category</button>
+                      font-semibold rounded-full bg-slate-200 text-green-800 ms-1"  onClick={() => {handleAddCategory(); setShowAddCategory(false);}}>Add Category</button>
         </>
     );
 }

@@ -76,3 +76,31 @@ body{
     margin-left: 40%;
     margin-top: -10%;
 }
+
+.task{
+    border: 2px solid whitesmoke;
+    width: 80%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
+}
+
+.tablee{
+    width: 900px;
+    background-image: linear-gradient(to right, #e0cee6 , white);
+}
+
+.todoEdit{
+    background-color: red !important;
+}
+
+.modelStyle{
+    width: 300px;
+    height: 150px;
+    align-items: center;
+    display: flex;
+    justify-content: center ;
+    border-radius: 20px;
+    background-image: linear-gradient(to right, #a496a7 , rgb(200, 196, 196));
+}
