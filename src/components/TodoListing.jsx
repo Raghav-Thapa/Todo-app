@@ -15,7 +15,7 @@ export default function TodoList() {
         category,
         handleCreateTask,
         handleDeleteTask,
-        setCategory,
+        setCategory,    
         handleSaveTask,
         editingTask,
         newTaskName,

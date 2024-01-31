@@ -111,14 +111,71 @@ body{
 .modelStyle{
     width: 300px;
     height: 150px;
-    align-items: center;
-    display: flex;
-    justify-content: center ;
+    text-align: center;
+    padding: 2%;
     border-radius: 20px;
     background-image: linear-gradient(to right, #a496a7 , rgb(200, 196, 196));
 }
+
+
 .editTask{
     position: absolute;
     margin-top: -2%;
     margin-left: 9%;
+}
+
+.flashMessage.error{
+    background-image: linear-gradient(to right, #e82121 , rgb(232, 106, 106));
+    width: 300px;
+    color: white;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 80%;
+    margin-top: -10%;
+    position: absolute;
+    float: right;
+}
+
+.flashMessage.success{
+    background-image: linear-gradient(to right, #0ac13e , rgb(59, 165, 80));
+    width: 300px;
+    color: white;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 80%;
+    margin-top: -10%;
+    position: absolute;
+    float: right;
+}
+
+.flashMessage.warn{
+    background-image: linear-gradient(to right, #dce805 , rgb(203, 198, 45));
+    width: 300px;
+    color: black;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 80%;
+    margin-top: -10%;
+    position: absolute;
+    float: right;
+}
+
+.dialog.open {
+    display: block;
+}
+
+.dialog.closed {
+    display: none;
 }

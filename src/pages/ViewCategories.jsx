@@ -19,7 +19,19 @@ const ViewCategories = (
         handleSaveTask,
         editingTask,
         newTaskName,
-        setNewTaskName } = useTodo();
+        flashMessage,
+        flashMessageType,
+        setNewTaskName,
+        DeleteConfirmationModal,
+        openDeleteModal,
+        closeDeleteModal,
+        handleEditCategory,
+        handleDeleteCategory,
+        handleSaveCategory,
+        editingCategory,
+        newCategoryName,
+        setNewCategoryName,
+    } = useTodo();
 
     const [viewTask, setViewTask] = useState(false)
 
@@ -36,13 +48,18 @@ const ViewCategories = (
         setShowAddCategory(true)
     }
 
-
     return (<>
         {/* <h1>All Categories</h1> */}
         <div className="wholeContent">
             <div className="sideBar">
                 <h1>Todo List</h1>
                 <h3> <i style={{ marginRight: '15px' }} className="fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
+                {flashMessage && <div className={`flashMessage ${flashMessageType}`}>
+                    {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
+                        : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
+                        : flashMessageType === 'error' ? (<><i className="fa-solid fa-times me-3"></i> {flashMessage} </>)
+                        : ({ flashMessage })}
+                </div>}
 
                 <div className="ms-2">
                     {showAddCategory &&
@@ -60,15 +77,26 @@ const ViewCategories = (
                         <div className={`eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
                             <button className="ms-10" onClick={() => handleViewTask(cate.id)}>
                                 {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} className="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} className="fa-regular fa-square-check"></i>)}
-                                {cate.cate}</button>
+                                {cate.cate}</button>  <button className="ms-3 px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}><i className="fa-solid fa-pen-to-square"></i></button>
+                            {editingCategory === cate.id && (
+                                <div>
+                                    <input className="border-4 ms-4"
+                                        type="text"
+                                        value={newCategoryName}
+                                        onChange={(e) => setNewCategoryName(e.target.value)}
+                                    />
+                                    <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2" onClick={() => {
+                                        handleSaveCategory(cate.id, newCategoryName);
+                                    }}>
+                                        Save
+                                    </button>
+                                </div>
+                            )}
+                            <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800 ms-2" onClick={() => openDeleteModal(cate.id)}><i className="fa-solid fa-trash"></i></button>
                         </div>
                     ))}
 
                 </div>
-                <NavLink to='/edit'>
-                    <button className="ms-10 mt-10 w-48 h-10 text-lg
-                 font-semibold rounded-full bg-sky-700 text-white">Edit</button>
-                </NavLink>
             </div>
 
             <div className="mainContent">
@@ -92,7 +120,8 @@ const ViewCategories = (
                                     )
                                 }}
                                 handleCreateTask={() => handleCreateTask(cate.id)}
-                                handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
+                                // handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
+                                handleDeleteTask={(taskId) => openDeleteModal(cate.id, taskId)}
                                 tasks={cate.tasks}
                                 handleEditTask={(taskId) => handleEditTask(taskId)}
                                 newTaskName={newTaskName}
@@ -103,6 +132,7 @@ const ViewCategories = (
                         }
                     </div>
                 ))}
+                {DeleteConfirmationModal}
 
             </div>
         </div>
