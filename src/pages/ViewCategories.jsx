@@ -50,10 +50,10 @@ const ViewCategories = (
 
     return (<>
         {/* <h1>All Categories</h1> */}
-        <div className="wholeContent">
-            <div className="sideBar">
-                <h1>Todo List</h1>
-                <h3> <i style={{ marginRight: '15px' }} className="fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
+        <div className="flex">
+            <div className="w-1/5 h-auto shadow-2xl">
+                <h1 className="text-center py-16 font text-5xl">Todo List</h1>
+                <h3 className="text-2xl fontt"> <i className="me-5 ms-8 fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
                 {flashMessage && <div className={`flashMessage ${flashMessageType}`}>
                     {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
                         : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
@@ -72,9 +72,9 @@ const ViewCategories = (
                         />}
                 </div>
 
-                <div className="categoryList">
+                <div className="categoryList my-4 text-lg">
                     {category.map((cate) => (
-                        <div className={`eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
+                        <div className={`my-1 eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
                             <button className="ms-10" onClick={() => handleViewTask(cate.id)}>
                                 {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} className="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} className="fa-regular fa-square-check"></i>)}
                                 {cate.cate}</button>  <button className="ms-3 px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}><i className="fa-solid fa-pen-to-square"></i></button>
@@ -99,11 +99,11 @@ const ViewCategories = (
                 </div>
             </div>
 
-            <div className="mainContent">
-                <h1>Organinze and Manage <br /> Your <span style={{ color: '#29a2bd' }}> Tasks </span></h1>
-                <img className="todoImage" src={todoImg} alt="" />
+            <div className="w-4/5">
+                <h1 className="ps-28 pt-16 font text-5xl">Organinze and Manage <br /> Your <span style={{ color: '#29a2bd' }}> Tasks </span></h1>
+                <img className="todoImage w-80 h-80 mx-96 absolute" src={todoImg} alt="" />
                 {category.map((cate) => (
-                    <div className="taskList" key={cate.id}>
+                    <div className="taskList text-xl ps-16" key={cate.id}>
                         {viewTask && cate.id === selectedCategoryId &&
                             <TextInput
                                 parent={cate.id}

@@ -89,10 +89,10 @@ export function TextInput({
                     </button>
                 </Modal>
             )}
-            <h1>My Tasks</h1>
+            <h1 className="ms-10 mt-16 text-3xl">My Tasks</h1>
             <ul className="todolists mb-5 mt-8">
                 {tasks.map((todo) => (
-                    <li className="task mb-5" key={todo.id}>
+                    <li className="task w-4/5 border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5" key={todo.id}>
                         <input onClick={() => handleClickTaskStatusCompleted(todo.id)} 
                         type="checkbox"
                         readOnly
