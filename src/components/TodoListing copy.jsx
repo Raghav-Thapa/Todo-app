@@ -20,11 +20,11 @@ export default function TodoList({
     return (<>
         <ul className="">
             <table className="ms-44 mt-5 border-spacing-1 border-separate border border-slate-500 ... table-auto">
-                <thead>
-                    <th className="w-80 border border-slate-600">Category</th>
-                    <th className="w-80 border border-slate-600">Task</th>
-                </thead>
                 <tbody>
+                
+                    <td className="w-80 border border-slate-600">Category</td>
+                    <td className="w-80 border border-slate-600">Task</td>
+                
                     {category.map((cate) => (
                         <tr key={cate.id}>
                             <td className="border border-slate-700">{cate.cate}</td>

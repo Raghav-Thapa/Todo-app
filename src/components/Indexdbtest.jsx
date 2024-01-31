@@ -84,15 +84,15 @@ export default function Home() {
   <br /><br />
   {users.length > 0 && (
       <table>
-        <thead>
+       
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>ID</th>
+            <td>Name</td>
+            <td>Email</td>
+            <td>ID</td>
             {/* header */}
-            <th>Actions</th>
+            <td>Actions</td>
           </tr>
-        </thead>
+        
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>

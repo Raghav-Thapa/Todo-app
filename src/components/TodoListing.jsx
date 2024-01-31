@@ -24,13 +24,13 @@ export default function TodoList() {
     return (<>
         <ul className="">
             <table className="tablee ms-16 mt-5 table-auto">
-                <thead className="text-xl h-16 text-black uppercase">
-                    <th className="w-80 border-4 border-slate-400">Category</th>
-                    <th className="w-80 border-4 border-slate-400">Task</th>
-                    {/* <th className="w-80 border border-slate-600">Action</th> */}
-                </thead>
-
                 <tbody>
+                <tr>
+                    <td className="w-80 border-4 border-slate-400">Category</td>
+                    <td className="w-80 border-4 border-slate-400">Task</td>
+                    {/* <th className="w-80 border border-slate-600">Action</th> */}
+                </tr>
+
                     {category.map((cate) => (
                         <tr className=" h-14  " key={cate.id}>
                             <td className="border-4 border-slate-400">{cate.cate}

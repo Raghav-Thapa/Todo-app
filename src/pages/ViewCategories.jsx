@@ -42,7 +42,7 @@ const ViewCategories = (
         <div className="wholeContent">
             <div className="sideBar">
                 <h1>Todo List</h1>
-                <h3> <i style={{ marginRight: '15px' }} class="fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i class="ms-3 fa-solid fa-circle-plus"></i></button></h3>
+                <h3> <i style={{ marginRight: '15px' }} className="fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
 
                 <div className="ms-2">
                     {showAddCategory &&
@@ -59,7 +59,7 @@ const ViewCategories = (
                     {category.map((cate) => (
                         <div className={`eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
                             <button className="ms-10" onClick={() => handleViewTask(cate.id)}>
-                                {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} class="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} class="fa-regular fa-square-check"></i>)}
+                                {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} className="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} className="fa-regular fa-square-check"></i>)}
                                 {cate.cate}</button>
                         </div>
                     ))}

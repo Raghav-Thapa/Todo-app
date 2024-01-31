@@ -95,6 +95,7 @@ export function TextInput({
                     <li className="task mb-5" key={todo.id}>
                         <input onClick={() => handleClickTaskStatusCompleted(todo.id)} 
                         type="checkbox"
+                        readOnly
                         checked={taskStatus[todo.id] === 'completed'}  
                         name="" 
                         id="" /> {todo.todo}
