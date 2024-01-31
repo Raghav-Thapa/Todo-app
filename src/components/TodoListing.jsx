@@ -21,20 +21,19 @@ export default function TodoList() {
         newTaskName,
         setNewTaskName } = useTodo();
 
-
     return (<>
         <ul className="">
             <table className="tablee ms-16 mt-5 table-auto">
                 <thead className="text-xl h-16 text-black uppercase">
-                    <th className="w-80 border border-slate-600">Category</th>
-                    <th className="w-80 border border-slate-600">Task</th>
+                    <th className="w-80 border-4 border-slate-400">Category</th>
+                    <th className="w-80 border-4 border-slate-400">Task</th>
                     {/* <th className="w-80 border border-slate-600">Action</th> */}
                 </thead>
 
                 <tbody>
                     {category.map((cate) => (
                         <tr className=" h-14  " key={cate.id}>
-                            <td className="border border-slate-700">{cate.cate}
+                            <td className="border-4 border-slate-400">{cate.cate}
                                 {editingCategory === cate.id && (
                                     <div>
                                         <input
@@ -51,14 +50,12 @@ export default function TodoList() {
                                 )}
 
                                 <br />
-                                <button className="px-2 mt-10 inline-flex text-xs leading-5
-                      font-semibold rounded-full     bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>Edit Category</button>
-                                <button className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-red-200 text-red-800 ms-5" onClick={() => handleDeleteCategory(cate.id)}>Delete Category</button>
+                                <button className="px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>Edit Category</button>
+                                <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800 ms-5" onClick={() => handleDeleteCategory(cate.id)}>Delete Category</button>
 
                             </td>
 
-                            <td className="border border-slate-700">
+                            <td className="border-4 border-slate-400 pb-5">
 
                                 <TextInput
                                     parent={cate.id}

@@ -24,12 +24,12 @@ export function TextInput({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [taskStatuses, setTaskStatuses] = useState({});
+    const [taskStatus, setTaskStatus] = useState({});
 
     const handleClickTaskStatusPending = async (id) => {
         try {
             await updateTaskStatus('categories', parent, id, 'pending');
-            setTaskStatuses(prevStatuses => ({ ...prevStatuses, [id]: 'pending' }));
+            setTaskStatus(prevStatuses => ({ ...prevStatuses, [id]: 'pending' }));
         } catch (error) {
             console.error('Failed to update task status:', error);
         }
@@ -38,7 +38,7 @@ export function TextInput({
     const handleClickTaskStatusStarted = async (id) => {
         try {
             await updateTaskStatus('categories', parent, id, 'started');
-            setTaskStatuses(prevStatuses => ({ ...prevStatuses, [id]: 'started' }));
+            setTaskStatus(prevStatuses => ({ ...prevStatuses, [id]: 'started' }));
         } catch (error) {
             console.error('Failed to update task status:', error);
         }
@@ -47,7 +47,7 @@ export function TextInput({
     const handleClickTaskStatusCompleted = async (id) => {
         try {
             await updateTaskStatus('categories', parent, id, 'completed');
-            setTaskStatuses(prevStatuses => ({ ...prevStatuses, [id]: 'completed' }));
+            setTaskStatus(prevStatuses => ({ ...prevStatuses, [id]: 'completed' }));
         } catch (error) {
             console.error('Failed to update task status:', error);
         }
@@ -58,7 +58,7 @@ export function TextInput({
             try {
                 const dbTask = await getTask('categories', parent, task.id);
                 if (dbTask) {
-                    setTaskStatuses(prevStatuses => ({ ...prevStatuses, [dbTask.id]: dbTask.status }));
+                    setTaskStatus(prevStatuses => ({ ...prevStatuses, [dbTask.id]: dbTask.status }));
                 }
             } catch (error) {
                 console.error('Failed to fetch task:', error);
@@ -95,7 +95,7 @@ export function TextInput({
                     <li className="task mb-5" key={todo.id}>
                         <input onClick={() => handleClickTaskStatusCompleted(todo.id)} 
                         type="checkbox"
-                        checked={taskStatuses[todo.id] === 'completed'}  
+                        checked={taskStatus[todo.id] === 'completed'}  
                         name="" 
                         id="" /> {todo.todo}
                         <br />
@@ -104,17 +104,17 @@ export function TextInput({
                                 handleClickTaskStatusPending(todo.id);
                             }}
 
-                                className={taskStatuses[todo.id] === 'pending' ? "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800" : "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"}>Pending</button>
+                                className={taskStatus[todo.id] === 'pending' ? "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800" : "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"}>Pending</button>
 
                             <button onClick={() => {
                                 handleClickTaskStatusStarted(todo.id);
                             }}
-                                className={taskStatuses[todo.id] === 'started' ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800"}>Started</button>
+                                className={taskStatus[todo.id] === 'started' ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800"}>Started</button>
 
                             <button onClick={() => {
                                 handleClickTaskStatusCompleted(todo.id);
                             }}
-                                className={taskStatuses[todo.id] === 'completed' ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"}>Completed</button>
+                                className={taskStatus[todo.id] === 'completed' ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800" : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"}>Completed</button>
 
                         </>
 
