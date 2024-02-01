@@ -2,36 +2,42 @@ let request;
 let db;
 let version = 1;
 
+export const initDB = () => {
+  return new Promise((resolve, reject) => {
+    request = indexedDB.open('myCategory', version);
+
+    request.onupgradeneeded = () => {
+      db = request.result;
+      if (!db.objectStoreNames.contains('categories')) {
+        console.log(`Creating object store categories`);
+        db.createObjectStore('categories', { keyPath: 'id' });
+      }
+    };
+
+    request.onsuccess = () => {
+      db = request.result;
+      resolve(db);
+    };
+
+    request.onerror = () => {
+      reject('An error occurred while opening the database');
+    };
+  });
+};
+
 export const addData = (storeName, data) => {
-    return new Promise((resolve, reject) => {
-      request = indexedDB.open('myCategory', version);
-  
-      request.onupgradeneeded = () => {
-        db = request.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-          console.log(`Creating object store ${storeName}`);
-          db.createObjectStore(storeName, { keyPath: 'id' });
-        }
-      };
-  
-      request.onsuccess = () => {
-        db = request.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-          reject(`Object store ${storeName} does not exist`);
-          return;
-        }
-        console.log('request.onsuccess - addData', data);
-        const tx = db.transaction(storeName, 'readwrite');
-        const store = tx.objectStore(storeName);
-        store.add(data);
-        resolve(data);
-      };
-  
-      request.onerror = () => {
-        reject('An error occurred while opening the database');
-      };
-    });
-  };
+  return new Promise((resolve, reject) => {
+    if (!db.objectStoreNames.contains(storeName)) {
+      reject(`Object store ${storeName} does not exist`);
+      return;
+    }
+    console.log('request.onsuccess - addData', data);
+    const tx = db.transaction(storeName, 'readwrite');
+    const store = tx.objectStore(storeName);
+    store.add(data);
+    resolve(data);
+  });
+};
 
 
   export const getStoreData = (storeName) => {
