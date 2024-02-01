@@ -3,9 +3,9 @@ let db;
 let version = 1;
 
 export const addData = (storeName, data) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       request = indexedDB.open('myCategory', version);
-
+  
       request.onupgradeneeded = () => {
         db = request.result;
         if (!db.objectStoreNames.contains(storeName)) {
@@ -17,11 +17,10 @@ export const addData = (storeName, data) => {
       request.onsuccess = () => {
         db = request.result;
         if (!db.objectStoreNames.contains(storeName)) {
-            reject(`Object store ${storeName} does not exist`);
-            return;
-          }
+          reject(`Object store ${storeName} does not exist`);
+          return;
+        }
         console.log('request.onsuccess - addData', data);
-        db = request.result;
         const tx = db.transaction(storeName, 'readwrite');
         const store = tx.objectStore(storeName);
         store.add(data);
@@ -29,12 +28,7 @@ export const addData = (storeName, data) => {
       };
   
       request.onerror = () => {
-        const error = request.error?.message;
-        if (error) {
-          resolve(error);
-        } else {
-          resolve('Unknown error');
-        }
+        reject('An error occurred while opening the database');
       };
     });
   };
