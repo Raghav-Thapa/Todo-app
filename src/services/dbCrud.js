@@ -41,7 +41,9 @@ export const addData = (storeName, data) => {
   });
 };
 
+
   export const getStoreData = (storeName) => {
+    return initDB().then(() => {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open('myCategory');
   
@@ -64,6 +66,7 @@ export const addData = (storeName, data) => {
         reject(`Error opening database: ${event.target.errorCode}`);
       };
     });
+});
   };
 
   export const getStoreDataForAddingTasks = (storeName, key) => {
