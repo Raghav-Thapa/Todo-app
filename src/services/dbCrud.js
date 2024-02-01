@@ -2,48 +2,59 @@ let request;
 let db;
 let version = 1;
 
-export const initDB = () => {
-  return new Promise((resolve, reject) => {
-    request = indexedDB.open('myCategory', version);
-
-    request.onupgradeneeded = () => {
-      db = request.result;
-      if (!db.objectStoreNames.contains('categories')) {
-        console.log(`Creating object store categories`);
-        db.createObjectStore('categories', { keyPath: 'id' });
-      }
-    };
-
-    request.onsuccess = () => {
-      db = request.result;
-      resolve(db);
-    };
-
-    request.onerror = () => {
-      reject('An error occurred while opening the database');
-    };
-  });
-};
-
 export const addData = (storeName, data) => {
-  return initDB().then(() => {
-    return new Promise((resolve, reject) => {
-      if (!db.objectStoreNames.contains(storeName)) {
-        reject(`Object store ${storeName} does not exist`);
-        return;
-      }
-      console.log('request.onsuccess - addData', data);
-      const tx = db.transaction(storeName, 'readwrite');
-      const store = tx.objectStore(storeName);
-      store.add(data);
-      resolve(data);
+    return new Promise((resolve) => {
+      request = indexedDB.open('myCategory', version);
+  
+      request.onsuccess = () => {
+        console.log('request.onsuccess - addData', data);
+        db = request.result;
+  
+        // Check if the object store exists, and create it if it doesn't
+        if (!db.objectStoreNames.contains(storeName)) {
+          console.log(`Creating ${storeName} store`);
+          db.close(); // Close the database to allow for store creation
+          const newVersion = db.version + 1;
+          version = newVersion;
+          request = null; // Reset the request object
+  
+          // Reopen the database with an updated version and create the store
+          request = indexedDB.open('myCategory', newVersion);
+          request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            console.log(`Creating ${storeName} store in onupgradeneeded`);
+            db.createObjectStore(storeName, { keyPath: 'id' });
+          };
+  
+          request.onsuccess = () => {
+            db = request.result;
+            const tx = db.transaction(storeName, 'readwrite');
+            const store = tx.objectStore(storeName);
+            store.add(data);
+            resolve(data);
+          };
+        } else {
+          // If the store already exists, proceed with the transaction
+          const tx = db.transaction(storeName, 'readwrite');
+          const store = tx.objectStore(storeName);
+          store.add(data);
+          resolve(data);
+        }
+      };
+  
+      request.onerror = () => {
+        const error = request.error?.message;
+        if (error) {
+          resolve(error);
+        } else {
+          resolve('Unknown error');
+        }
+      };
     });
-  });
-};
+  };
 
 
   export const getStoreData = (storeName) => {
-    return initDB().then(() => {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open('myCategory');
   
@@ -66,7 +77,6 @@ export const addData = (storeName, data) => {
         reject(`Error opening database: ${event.target.errorCode}`);
       };
     });
-});
   };
 
   export const getStoreDataForAddingTasks = (storeName, key) => {
@@ -100,43 +110,89 @@ export const addData = (storeName, data) => {
     });
 };
 
-  export const updateData = (storeName, key, updatedData) => {
-    console.log('updateData called with:', storeName, key, updatedData); 
+export const updateData = (storeName, key, updatedData) => {
+    console.log('updateData called with:', storeName, key, updatedData);
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open('myCategory');
-
-        request.onsuccess = () => {
-            const db = request.result;
+      const request = indexedDB.open('myCategory');
+  
+      request.onsuccess = () => {
+        const db = request.result;
+  
+        // Check if the object store exists, and create it if it doesn't
+        if (!db.objectStoreNames.contains(storeName)) {
+          console.log(`Creating ${storeName} store`);
+          db.close(); // Close the database to allow for store creation
+          const newVersion = db.version + 1;
+          version = newVersion;
+          request = null; // Reset the request object
+  
+          // Reopen the database with an updated version and create the store
+          request = indexedDB.open('myCategory', newVersion);
+          request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            console.log(`Creating ${storeName} store in onupgradeneeded`);
+            db.createObjectStore(storeName, { keyPath: 'id' });
+          };
+  
+          request.onsuccess = () => {
+            db = request.result;
             const transaction = db.transaction(storeName, 'readwrite');
             const store = transaction.objectStore(storeName);
-
+  
             const getRequest = store.get(key);
-
+  
             getRequest.onsuccess = () => {
-                const data = getRequest.result;
-                Object.assign(data, updatedData);
-                console.log('Data to put in the database:', data);
-                const putRequest = store.put(data);
-
-                putRequest.onsuccess = () => {
-                    resolve(data);
-                };
-
-                putRequest.onerror = () => {
-                    reject(putRequest.error);
-                };
+              const data = getRequest.result;
+              Object.assign(data, updatedData);
+              console.log('Data to put in the database:', data);
+              const putRequest = store.put(data);
+  
+              putRequest.onsuccess = () => {
+                resolve(data);
+              };
+  
+              putRequest.onerror = () => {
+                reject(putRequest.error);
+              };
             };
-
+  
             getRequest.onerror = () => {
-                reject(getRequest.error);
+              reject(getRequest.error);
             };
-        };
-
-        request.onerror = () => {
-            reject(request.error);
-        };
+          };
+        } else {
+          // If the store already exists, proceed with the transaction
+          const transaction = db.transaction(storeName, 'readwrite');
+          const store = transaction.objectStore(storeName);
+  
+          const getRequest = store.get(key);
+  
+          getRequest.onsuccess = () => {
+            const data = getRequest.result;
+            Object.assign(data, updatedData);
+            console.log('Data to put in the database:', data);
+            const putRequest = store.put(data);
+  
+            putRequest.onsuccess = () => {
+              resolve(data);
+            };
+  
+            putRequest.onerror = () => {
+              reject(putRequest.error);
+            };
+          };
+  
+          getRequest.onerror = () => {
+            reject(getRequest.error);
+          };
+        }
+      };
+  
+      request.onerror = () => {
+        reject(request.error);
+      };
     });
-};
+  };
 
 
 export const putData = (storeName, data) => {
