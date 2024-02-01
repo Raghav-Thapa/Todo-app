@@ -7,28 +7,30 @@ export const Stores = {
 };
 
 export const initDB = () => {
-  return new Promise((resolve, reject) => {
-    version++; 
-    request = indexedDB.open('myCategory', version); 
+  return new Promise((resolve) => {
 
-    request.onupgradeneeded = (event) => {
-      db = event.target.result;
+    request = indexedDB.open('myCategory');
 
+    request.onupgradeneeded = () => {
+      db = request.result;
+
+    
       if (!db.objectStoreNames.contains(Stores.Categories)) {
         console.log('Creating categories store');
         db.createObjectStore(Stores.Categories, { keyPath: 'id' });
       }
+    
     };
 
     request.onsuccess = () => {
       db = request.result;
-      console.log('request.onsuccess - initDB', db.version);
+      version = db.version;
+      console.log('request.onsuccess - initDB', version);
       resolve(true);
     };
 
-    request.onerror = (event) => {
-      console.log('request.onerror - initDB', event);
-      reject(event);
+    request.onerror = () => {
+      resolve(false);
     };
   });
 };

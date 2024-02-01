@@ -5,8 +5,21 @@ let version = 1;
 export const addData = (storeName, data) => {
     return new Promise((resolve) => {
       request = indexedDB.open('myCategory', version);
+
+      request.onupgradeneeded = () => {
+        db = request.result;
+        if (!db.objectStoreNames.contains(storeName)) {
+          console.log(`Creating object store ${storeName}`);
+          db.createObjectStore(storeName, { keyPath: 'id' });
+        }
+      };
   
       request.onsuccess = () => {
+        db = request.result;
+        if (!db.objectStoreNames.contains(storeName)) {
+            reject(`Object store ${storeName} does not exist`);
+            return;
+          }
         console.log('request.onsuccess - addData', data);
         db = request.result;
         const tx = db.transaction(storeName, 'readwrite');
