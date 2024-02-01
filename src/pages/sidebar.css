@@ -125,21 +125,9 @@ body{
 
 .flashMessage.error{
     background-image: linear-gradient(to right, #e82121 , rgb(232, 106, 106));
-    width: 300px;
-    color: white;
-    font-weight: bold;
-    height: 50px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 80%;
-    margin-top: -10%;
-    position: fixed;
-    float: right;
 }
 
-.flashMessage.success{
+.flashMessage{
     background-image: linear-gradient(to right, #0ac13e , rgb(59, 165, 80));
     width: 300px;
     color: white;
@@ -155,18 +143,10 @@ body{
     float: right;
 }
 
-.flashMessage.warn{
+.flashMessage .success{
+    background-image: linear-gradient(to right, #0ac13e , rgb(59, 165, 80));
+}
+
+.flashMessage   .warn{
     background-image: linear-gradient(to right, #dce805 , rgb(203, 198, 45));
-    width: 300px;
-    color: black;
-    font-weight: bold;
-    height: 50px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 80%;
-    margin-top: -10%;
-    position: fixed;
-    float: right;
 }
