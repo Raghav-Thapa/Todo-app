@@ -73,11 +73,7 @@ export default function useTodo() {
                 setFlashMessageType(''); 
             }, 3000); 
         }catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError('Something went wrong');
-            }
+            console.log(err)
         }
     }
 
