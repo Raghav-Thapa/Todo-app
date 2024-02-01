@@ -53,7 +53,7 @@ const ViewCategories = (
         <div className="flex">
             <div className="w-1/5 h-screen shadow-2xl">
                 <h1 className="text-center py-16 font text-5xl">Todo List</h1>
-                <h3 className="text-2xl fontt"> <i className="me-5 ms-8 fa-solid fa-list"></i>Categories <button onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
+                <h3 className="text-2xl fontt"> <i className="me-5 ms-8 fa-solid fa-list"></i>Categories <button  aria-label="add category" onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
                 {flashMessage && <div className={`flashMessage ${flashMessageType}`}>
                     {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
                         : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
@@ -74,9 +74,9 @@ const ViewCategories = (
                 <div className="categoryList my-4 text-lg">
                     {category.map((cate) => (
                         <div className={`my-1 eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
-                            <button className="ms-10" onClick={() => handleViewTask(cate.id)}>
+                            <button aria-label="view tasks" className="ms-10" onClick={() => handleViewTask(cate.id)}>
                                 {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} className="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} className="fa-regular fa-square-check"></i>)}
-                                {cate.cate}</button>  <button className="ms-3 px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>
+                                {cate.cate}</button>  <button aria-label="edit category" className="ms-3 px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>
                                     <i className="fa-solid fa-pen-to-square"></i></button>
                             {editingCategory === cate.id && (
                                 <div>
@@ -85,7 +85,7 @@ const ViewCategories = (
                                         value={newCategoryName}
                                         onChange={(e) => setNewCategoryName(e.target.value)}
                                     />
-                                    <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2" onClick={() => {
+                                    <button aria-label="save edit category" className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2" onClick={() => {
                                         handleSaveCategory(cate.id, newCategoryName);
                                     }}>
                                         Save
@@ -122,7 +122,7 @@ const ViewCategories = (
                                 handleCreateTask={() => handleCreateTask(cate.id)}
                                 // handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
                                 handleDeleteTask={(taskId) => openDeleteModal(cate.id, taskId)}
-                                tasks={cate.tasks}
+                                tasks={cate.tasks || []}
                                 handleEditTask={(taskId) => handleEditTask(taskId)}
                                 newTaskName={newTaskName}
                                 setNewTaskName={setNewTaskName}

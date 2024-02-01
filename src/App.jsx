@@ -1,4 +1,4 @@
-import Header from './components/Header'
+// import Header from './components/Header'
 import Home from './components/Indexdbtest'
 import Todo from './components/Todo.app'
 
@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Todo />
 
 
