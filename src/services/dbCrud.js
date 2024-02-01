@@ -26,19 +26,20 @@ export const initDB = () => {
 };
 
 export const addData = (storeName, data) => {
-  return new Promise((resolve, reject) => {
-    if (!db.objectStoreNames.contains(storeName)) {
-      reject(`Object store ${storeName} does not exist`);
-      return;
-    }
-    console.log('request.onsuccess - addData', data);
-    const tx = db.transaction(storeName, 'readwrite');
-    const store = tx.objectStore(storeName);
-    store.add(data);
-    resolve(data);
+  return initDB().then(() => {
+    return new Promise((resolve, reject) => {
+      if (!db.objectStoreNames.contains(storeName)) {
+        reject(`Object store ${storeName} does not exist`);
+        return;
+      }
+      console.log('request.onsuccess - addData', data);
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      store.add(data);
+      resolve(data);
+    });
   });
 };
-
 
   export const getStoreData = (storeName) => {
     return new Promise((resolve, reject) => {
