@@ -1,9 +1,8 @@
-import useTodo from "../components/TodoCrud";
-import { TextInput } from "../components/Textinput";
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import useTodo from "../components/Crud/TodoCrud";
+import { TextInput } from "../components/Input/Textinput";
+import { useState} from "react";
 import todoImg from "../assets/todo.png"
-import { CategoryInput } from "../components/Textinput";
+import { CategoryInput } from "../components/Input/Textinput";
 
 const ViewCategories = (
 ) => {
@@ -53,16 +52,16 @@ const ViewCategories = (
         <div className="flex">
             <div className="w-1/5 h-screen shadow-2xl">
                 <h1 className="text-center py-16 font text-5xl">Todo List</h1>
-                <h3 className="text-2xl fontt"> <i className="me-5 ms-8 fa-solid fa-list"></i>Categories <button  aria-label="add category" onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
-                {flashMessage && <div className={`flashMessage ${flashMessageType}`}>
+                <h3 className="text-2xl fontt"> <i className="me-5 ms-8 fa-solid fa-list"></i>Categories <button aria-label="add category" onClick={handleClickAddCategory}><i className="ms-3 fa-solid fa-circle-plus"></i></button></h3>
+                {flashMessage && <div data-testid="flash-message" className={`flashMessage ${flashMessageType}`}>
                     {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
                         : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
-                        : flashMessageType === 'error' ? (<><i className="fa-solid fa-times me-3"></i> {flashMessage} </>)
-                        : ({ flashMessage })}
+                            : flashMessageType === 'error' ? (<><i className="fa-solid fa-times me-3"></i> {flashMessage} </>)
+                                : ({ flashMessage })}
                 </div>}
 
                 <div className="ms-2">
-                     {showAddCategory &&
+                    {showAddCategory &&
                         <CategoryInput
                             inputCategory={inputCategory}
                             handleCategoryChange={handleCategoryChange}
@@ -76,8 +75,8 @@ const ViewCategories = (
                         <div className={`my-1 eachCategory ${selectedCategoryId === cate.id ? 'selected' : ''}`} key={cate.id}>
                             <button aria-label="view tasks" className="ms-10" onClick={() => handleViewTask(cate.id)}>
                                 {selectedCategoryId === cate.id ? (<i style={{ marginRight: '10px' }} className="fa-solid fa-square-check"></i>) : (<i style={{ marginRight: '10px' }} className="fa-regular fa-square-check"></i>)}
-                                {cate.cate}</button>  <button aria-label="edit category" className="ms-3 px-2 mt-10 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" onClick={() => handleEditCategory(cate.id)}>
-                                    <i className="fa-solid fa-pen-to-square"></i></button>
+                                {cate.cate}</button>  <button aria-label="edit category" className="me-3 ms-3 mt-10 inline-flex text-lg leading-5 font-semibold rounded-full bg-green-100 text-green-800 p-1 justify-center items-center" onClick={() => handleEditCategory(cate.id)}>
+                                <i className="fa-solid fa-pen-to-square"></i></button>
                             {editingCategory === cate.id && (
                                 <div>
                                     <input className="border-4 ms-4"
@@ -92,7 +91,7 @@ const ViewCategories = (
                                     </button>
                                 </div>
                             )}
-                            <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800 ms-2" onClick={() => openDeleteModal(cate.id)}><i className="fa-solid fa-trash"></i></button>
+                            <button className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2" onClick={() => openDeleteModal(cate.id)}><i className="fa-solid fa-trash"></i></button>
                         </div>
                     ))}
 

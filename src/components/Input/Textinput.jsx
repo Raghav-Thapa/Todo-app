@@ -1,7 +1,6 @@
-import Modal from "./Modal"
+import Modal from "../Modal/Modal"
 import { useState, useEffect } from "react";
-import useTodo from "./TodoCrud";
-import { updateTaskStatus, getStoreDataForAddingTasks, getTask } from "../services/dbCrud";
+import { updateTaskStatus, getTask } from "../../services/dbCrud";
 
 export function TextInput({
     handleChange,
@@ -93,12 +92,12 @@ export function TextInput({
             <ul className="todolists mb-5 mt-8 ">
                 {tasks.map((todo) => (
                     <li className="task w-4/5 border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5" key={todo.id}>
-                        <input onClick={() => handleClickTaskStatusCompleted(todo.id)} 
-                        type="checkbox"
-                        readOnly
-                        checked={taskStatus[todo.id] === 'completed'}  
-                        name="" 
-                        id="" /> {todo.todo}
+                        <input onClick={() => handleClickTaskStatusCompleted(todo.id)}
+                            type="checkbox"
+                            readOnly
+                            checked={taskStatus[todo.id] === 'completed'}
+                            name=""
+                            id="" /> {todo.todo}
                         <br />
                         <>
                             <button onClick={() => {

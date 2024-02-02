@@ -7,11 +7,11 @@ import {
     updateData, deleteData,
     getStoreDataForAddingTasks, editCategory,
     updateTaskName,
-} from "../services/dbCrud";
+} from "../../services/dbCrud";
 
-import { Stores } from "../services/db";
+import { Stores } from "../../services/db";
 
-import DeleteConfirmationModal from "./DeleteModal"
+import DeleteConfirmationModal from "../Modal/DeleteModal"
 
 export default function useTodo() {
     const [inputCategory, setInputCategory] = useState('');
@@ -20,7 +20,7 @@ export default function useTodo() {
     const [editingCategory, setEditingCategory] = useState(null);
     const [newCategoryName, setNewCategoryName] = useState('');
 
-    const [flashMessage, setFlashMessage] = useState(''); 
+    const [flashMessage, setFlashMessage] = useState('');
     const [flashMessageType, setFlashMessageType] = useState('');
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function useTodo() {
         }
         // console.log(isDeleteModalOpen); 
     }
-    
+
     const closeDeleteModal = () => {
         setIsDeleteModalOpen(false);
         setTaskToDelete(null);
@@ -45,34 +45,34 @@ export default function useTodo() {
     }
 
     const handleAddCategory = async () => {
-        if(inputCategory.trim() === "") {
+        if (inputCategory.trim() === "") {
             // alert("Please enter a category.");
             setFlashMessageType('error')
-            setFlashMessage("Please enter a category."); 
+            setFlashMessage("Please enter a category.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+                setFlashMessageType('');
+            }, 3000);
             return;
         }
-        const newCategory = {   
+        const newCategory = {
             cate: inputCategory,
             tasks: [],
-            id: Math.floor(Math.random().toFixed(2)*100),
+            id: Math.floor(Math.random().toFixed(2) * 100),
             inputTask: ''
         }
         setCategory([...category, newCategory])
         setInputCategory('')
-        console.log(category)
-        try{
+        // console.log(category)
+        try {
             const res = await addData(Stores.Categories, newCategory);
             setFlashMessageType('success')
-            setFlashMessage("Category added."); 
+            setFlashMessage("Category added.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
-        }catch (err) {
+                setFlashMessageType('');
+            }, 3000);
+        } catch (err) {
             console.log(err)
         }
     }
@@ -83,19 +83,19 @@ export default function useTodo() {
 
     const handleCreateTask = async (categoryId) => {
         const categoryToTest = category.find((cat) => cat.id === categoryId);
-        if(categoryToTest.inputTask.trim() === "") {
+        if (categoryToTest.inputTask.trim() === "") {
             setFlashMessageType('error')
-            setFlashMessage("Please enter a task."); 
+            setFlashMessage("Please enter a task.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+                setFlashMessageType('');
+            }, 3000);
             return;
         }
         const newTask = {
-            id: Math.floor(Math.random().toFixed(2)*100),
+            id: Math.floor(Math.random().toFixed(2) * 100),
             todo: category.find((cat) => cat.id === categoryId).inputTask,
-            status:'pending',
+            status: 'pending',
         };
         setCategory(category.map(cat => cat.id === categoryId ?
             { ...cat, tasks: [...cat.tasks, newTask], inputTask: "" } : cat));
@@ -107,11 +107,11 @@ export default function useTodo() {
             console.log('Updated category:', categoryToUpdate);
             await updateData(Stores.Categories, categoryId, categoryToUpdate);
             setFlashMessageType('success')
-            setFlashMessage("Task added."); 
+            setFlashMessage("Task added.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+                setFlashMessageType('');
+            }, 3000);
         } else {
             console.error(`Category with id ${categoryId} not found`);
         }
@@ -124,7 +124,7 @@ export default function useTodo() {
         setCategory(categories);
     }
 
-  
+
     const handleDeleteTask = async () => {
         const { categoryId, taskId } = taskToDelete;
         const category = await getStoreDataForAddingTasks(Stores.Categories, categoryId)
@@ -133,11 +133,11 @@ export default function useTodo() {
             await putData(Stores.Categories, category);
             loadCategories();
             setFlashMessageType('success')
-            setFlashMessage("Task deleted."); 
+            setFlashMessage("Task deleted.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+                setFlashMessageType('');
+            }, 3000);
         } else {
             console.error(`No tasks found for category with id ${categoryId}`);
         }
@@ -150,55 +150,55 @@ export default function useTodo() {
     const handleEditTask = async (taskId) => {
         setEditingTask(taskId);
         setFlashMessageType('warn')
-            setFlashMessage("You are trying to edit a Task."); 
-            setTimeout(() => {
-                setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+        setFlashMessage("You are trying to edit a Task.");
+        setTimeout(() => {
+            setFlashMessage('');
+            setFlashMessageType('');
+        }, 3000);
         // console.log(`editingTask: ${editingTask}`); 
         const categories = await getStoreData(Stores.Categories);
         for (let category of categories) {
             const taskToEdit = category.tasks.find(task => task.id === taskId);
             if (taskToEdit) {
                 setNewTaskName(taskToEdit.todo);
-               loadCategories(); 
+                loadCategories();
             }
         }
     }
 
-    
+
     const handleSaveTask = async (categoryId, taskId, newTaskName) => {
         try {
             // console.log('handle save', typeof newTaskName)
-            console.log('category id',categoryId)
-            console.log('task id',taskId)
-            await updateTaskName(Stores.Categories,categoryId, taskId, newTaskName);
+            console.log('category id', categoryId)
+            console.log('task id', taskId)
+            await updateTaskName(Stores.Categories, categoryId, taskId, newTaskName);
             setFlashMessageType('success')
-            setFlashMessage("Task edited successfully."); 
+            setFlashMessage("Task edited successfully.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
-           loadCategories();
+                setFlashMessageType('');
+            }, 3000);
+            loadCategories();
             setEditingTask(null);
             setNewTaskName('');
-            
+
         } catch (error) {
             console.error(`Failed to update Task: ${error.message}`);
         }
     }
-    
+
     const handleDeleteCategory = async () => {
         const categoryId = categoryToDelete;
         await deleteData(Stores.Categories, categoryId)
         loadCategories();
         closeDeleteModal();
         setFlashMessageType('success')
-            setFlashMessage("Category deleted."); 
-            setTimeout(() => {
-                setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+        setFlashMessage("Category deleted.");
+        setTimeout(() => {
+            setFlashMessage('');
+            setFlashMessageType('');
+        }, 3000);
     }
 
     const handleEditCategory = async (categoryId) => {
@@ -208,30 +208,30 @@ export default function useTodo() {
             setNewCategoryName(categoryToEdit.cate);
             loadCategories();
             setFlashMessageType('warn')
-            setFlashMessage("You are trying to edit a Category."); 
+            setFlashMessage("You are trying to edit a Category.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
+                setFlashMessageType('');
+            }, 3000);
         }
     }
 
     const handleSaveCategory = async (categoryId, newCategoryName) => {
-      try {
-        await updateCategoryName(Stores.Categories, categoryId, newCategoryName);
-        loadCategories()
-        setEditingCategory(null);
-        setNewCategoryName(''); 
-        setFlashMessageType('success')
-            setFlashMessage("Category edited successfully."); 
+        try {
+            await updateCategoryName(Stores.Categories, categoryId, newCategoryName);
+            loadCategories()
+            setEditingCategory(null);
+            setNewCategoryName('');
+            setFlashMessageType('success')
+            setFlashMessage("Category edited successfully.");
             setTimeout(() => {
                 setFlashMessage('');
-                setFlashMessageType(''); 
-            }, 3000); 
-    } catch (error) {
-        console.error(`Failed to update task: ${error.message}`);
+                setFlashMessageType('');
+            }, 3000);
+        } catch (error) {
+            console.error(`Failed to update task: ${error.message}`);
+        }
     }
-}
 
     useEffect(() => {
         loadCategories();
@@ -240,6 +240,8 @@ export default function useTodo() {
     return {
         inputCategory,
         setInputCategory,
+        setCategoryToDelete,
+        setTaskToDelete,
         category,
         setCategory,
         isModalOpen,
@@ -284,6 +286,6 @@ export default function useTodo() {
                 }}
             />
         ),
-        
+
     };
 }

@@ -8,8 +8,8 @@ export const Stores = {
 
 export const initDB = () => {
   return new Promise((resolve, reject) => {
-    version++; 
-    request = indexedDB.open('myCategory', version); 
+    version++;
+    request = indexedDB.open('myCategory', version);
 
     request.onupgradeneeded = (event) => {
       db = event.target.result;
@@ -34,7 +34,7 @@ export const initDB = () => {
 };
 
 export const deleteDb = () => {
-    indexedDB.deleteDatabase('myDBB')
+  indexedDB.deleteDatabase('myDBB')
 }
 
 

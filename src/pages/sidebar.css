@@ -26,12 +26,12 @@
 }
 
 body{
-    background-image: linear-gradient(to right, #e0cee6 , white);
+    background-image: linear-gradient(to right, #afe2e6b6 , rgba(184, 200, 205, 0.799));
 }
 
 .categoryList{
     /* margin-top: 25px; */
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic', sans-serif;
     /* font-size: 19px; */
 }
 
@@ -40,7 +40,7 @@ body{
 } */
 
 .eachCategory:hover{
-    background-image: linear-gradient(to right, #e0cee6 , white);
+    background-image: linear-gradient(to right, #afe2e6b6 , rgba(184, 200, 205, 0.799));
 }
 
 /* .eachCategory.selected {
