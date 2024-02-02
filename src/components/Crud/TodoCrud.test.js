@@ -9,7 +9,7 @@ beforeEach(async () => {
     //   await initDB();
 });
 
-jest.mock('../services/dbCrud', () => ({
+jest.mock('../../services/dbCrud', () => ({
     addData: jest.fn(),
     putData: jest.fn(),
     getStoreData: jest.fn().mockResolvedValue([]),

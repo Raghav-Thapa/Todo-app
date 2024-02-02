@@ -3,6 +3,7 @@ import { TextInput } from "../components/Input/Textinput";
 import { useState} from "react";
 import todoImg from "../assets/todo.png"
 import { CategoryInput } from "../components/Input/Textinput";
+import React from "react";
 
 const ViewCategories = (
 ) => {
@@ -23,7 +24,6 @@ const ViewCategories = (
         setNewTaskName,
         DeleteConfirmationModal,
         openDeleteModal,
-        closeDeleteModal,
         handleEditCategory,
         handleDeleteCategory,
         handleSaveCategory,
@@ -57,7 +57,7 @@ const ViewCategories = (
                     {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
                         : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
                             : flashMessageType === 'error' ? (<><i className="fa-solid fa-times me-3"></i> {flashMessage} </>)
-                                : ({ flashMessage })}
+                                : ({ flashMessage  })}
                 </div>}
 
                 <div className="ms-2">

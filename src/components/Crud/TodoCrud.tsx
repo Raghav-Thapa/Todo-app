@@ -13,6 +13,13 @@ import { Stores } from "../../services/db";
 
 import DeleteConfirmationModal from "../Modal/DeleteModal"
 
+interface TNewCategory {
+    cate: string,
+            tasks: [],
+            id: number,
+            inputTask: string
+}
+
 export default function useTodo() {
     const [inputCategory, setInputCategory] = useState('');
     const [category, setCategory] = useState([]);
@@ -24,7 +31,7 @@ export default function useTodo() {
     const [flashMessageType, setFlashMessageType] = useState('');
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [taskToDelete, setTaskToDelete] = useState(null);
+    const [taskToDelete, setTaskToDelete] = useState({categoryId:null, taskId:null});
     const [categoryToDelete, setCategoryToDelete] = useState(null);
 
     const openDeleteModal = (categoryId, taskId) => {
@@ -39,7 +46,7 @@ export default function useTodo() {
 
     const closeDeleteModal = () => {
         setIsDeleteModalOpen(false);
-        setTaskToDelete(null);
+        setTaskToDelete({categoryId:null, taskId:null});
         setCategoryToDelete(null);
         // console.log("this should be false",isDeleteModalOpen); 
     }
@@ -55,12 +62,13 @@ export default function useTodo() {
             }, 3000);
             return;
         }
-        const newCategory = {
+        const newCategory : TNewCategory = {
             cate: inputCategory,
             tasks: [],
             id: Math.floor(Math.random().toFixed(2) * 100),
             inputTask: ''
-        }
+        } 
+
         setCategory([...category, newCategory])
         setInputCategory('')
         // console.log(category)
@@ -82,8 +90,8 @@ export default function useTodo() {
     }
 
     const handleCreateTask = async (categoryId) => {
-        const categoryToTest = category.find((cat) => cat.id === categoryId);
-        if (categoryToTest.inputTask.trim() === "") {
+        const categoryToTest = category.find((cat: {id:number}) => cat.id === categoryId) ?? null;
+        if (categoryToTest?.inputTask.trim() === "") {
             setFlashMessageType('error')
             setFlashMessage("Please enter a task.");
             setTimeout(() => {
@@ -245,7 +253,6 @@ export default function useTodo() {
         category,
         setCategory,
         isModalOpen,
-        setIsModalOpen,
         editingCategory,
         setEditingCategory,
         newCategoryName,
@@ -268,7 +275,7 @@ export default function useTodo() {
         setFlashMessage,
         openDeleteModal,
         // closeDeleteModal,
-        isDeleteModalOpen,
+        // isDeleteModalOpen,
         setIsDeleteModalOpen,
         setIsModalOpen,
         DeleteConfirmationModal: (

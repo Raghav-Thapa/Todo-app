@@ -4,9 +4,9 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import Modal from "../components/Modal/Modal";
 
-jest.mock('../components/TodoCrud', () => jest.fn());
+jest.mock('../components/Crud/TodoCrud', () => jest.fn());
 
-jest.mock('../components/Modal', () => {
+jest.mock('../components/Modal/Modal', () => {
     const showModal = jest.fn()
     return function DummyModal(props) {
         return (
