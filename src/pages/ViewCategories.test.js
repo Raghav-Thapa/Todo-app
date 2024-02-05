@@ -1,10 +1,10 @@
 import ViewCategories from "./ViewCategories";
-import useTodo from "../components/Crud/TodoCrud";
+import useTodo from "../hooks/TodoCrud";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Modal from "../components/Modal/Modal";
 
-jest.mock("../components/Crud/TodoCrud", () => jest.fn());
+jest.mock("../hooks/TodoCrud", () => jest.fn());
 
 jest.mock("../components/Modal/Modal", () => {
   const showModal = jest.fn();

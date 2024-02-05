@@ -1,9 +1,9 @@
 // import { renderHook, act } from '@testing-library/react-hooks';
 import useTodo from "./TodoCrud";
-import * as dbCrud from "../../services/dbCrud";
+import * as dbCrud from "../services/dbCrud";
 import "@testing-library/jest-dom";
 import { waitFor, renderHook, act } from "@testing-library/react";
-import { initDB } from "../../services/db";
+import { initDB } from "../services/db";
 
 beforeEach(async () => {
   //   await initDB();

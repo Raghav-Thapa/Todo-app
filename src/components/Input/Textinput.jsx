@@ -20,31 +20,31 @@ export function TextInput({
 
   const [taskStatus, setTaskStatus] = useState({});
 
-  const handleClickTaskStatusPending = async (id) => {
+  const handleClickTaskStatus = async (id, statusValue) => {
     try {
-      await updateTaskStatus("categories", parent, id, "pending");
-      setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "pending" }));
+      await updateTaskStatus("categories", parent, id, statusValue);
+      setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: statusValue }));
     } catch (error) {
       console.error("Failed to update task status:", error);
     }
   };
 
-  const handleClickTaskStatusStarted = async (id) => {
-    try {
-      await updateTaskStatus("categories", parent, id, "started");
-      setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "started" }));
-    } catch (error) {
-      console.error("Failed to update task status:", error);
-    }
-  };
-
-  const handleClickTaskStatusCompleted = async (id) => {
-    try {
-      await updateTaskStatus("categories", parent, id, "completed");
-      setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "completed" }));
-    } catch (error) {
-      console.error("Failed to update task status:", error);
-    }
+  const StatusButton = ({
+    status,
+    handleClick,
+    taskStatus,
+    todo,
+    activeStyle,
+    inactiveStyle,
+  }) => {
+    return (
+      <button
+        onClick={() => handleClick(todo.id, status)}
+        className={taskStatus[todo.id] === status ? activeStyle : inactiveStyle}
+      >
+        {status}
+      </button>
+    );
   };
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export function TextInput({
             key={todo.id}
           >
             <input
-              onClick={() => handleClickTaskStatusCompleted(todo.id)}
+              onClick={() => handleClickTaskStatus(todo.id, "completed")}
               type="checkbox"
               readOnly
               checked={taskStatus[todo.id] === "completed"}
@@ -110,44 +110,31 @@ export function TextInput({
             {todo.todo}
             <br />
             <>
-              <button
-                onClick={() => {
-                  handleClickTaskStatusPending(todo.id);
-                }}
-                className={
-                  taskStatus[todo.id] === "pending"
-                    ? "ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800"
-                    : "ms-5 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"
-                }
-              >
-                Pending
-              </button>
+              <StatusButton
+                status="pending"
+                handleClick={handleClickTaskStatus}
+                taskStatus={taskStatus}
+                todo={todo}
+                activeStyle="ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800"
+                inactiveStyle="ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"
+              />
+              <StatusButton
+                status="started"
+                handleClick={handleClickTaskStatus}
+                taskStatus={taskStatus}
+                todo={todo}
+                activeStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800"
+                inactiveStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800"
+              />
 
-              <button
-                onClick={() => {
-                  handleClickTaskStatusStarted(todo.id);
-                }}
-                className={
-                  taskStatus[todo.id] === "started"
-                    ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800"
-                    : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800"
-                }
-              >
-                Started
-              </button>
-
-              <button
-                onClick={() => {
-                  handleClickTaskStatusCompleted(todo.id);
-                }}
-                className={
-                  taskStatus[todo.id] === "completed"
-                    ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800"
-                    : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
-                }
-              >
-                Completed
-              </button>
+              <StatusButton
+                status="completed"
+                handleClick={handleClickTaskStatus}
+                taskStatus={taskStatus}
+                todo={todo}
+                activeStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800"
+                inactiveStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
+              />
             </>
             <>
               <br />

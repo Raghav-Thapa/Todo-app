@@ -8,11 +8,11 @@ import {
   deleteData,
   getStoreDataForAddingTasks,
   updateTaskName,
-} from "../../services/dbCrud";
+} from "../services/dbCrud";
 
-import { Stores } from "../../services/db";
+import { Stores } from "../services/db";
 
-import DeleteConfirmationModal from "../Modal/DeleteModal";
+import DeleteConfirmationModal from "../components/Modal/DeleteModal";
 
 export default function useTodo() {
   const [inputCategory, setInputCategory] = useState("");
@@ -42,18 +42,20 @@ export default function useTodo() {
     setIsDeleteModalOpen(false);
     setTaskToDelete(null);
     setCategoryToDelete(null);
-    // console.log("this should be false",isDeleteModalOpen);
   };
 
-  const handleAddCategory = async () => {
+  const flashMessageHandler = (messageType, messageDescription) => {
+    setFlashMessageType(messageType);
+    setFlashMessage(messageDescription);
+    setTimeout(() => {
+      setFlashMessage("");
+      setFlashMessageType("");
+    }, 3000);
+  };
+
+  const handleAddCategory = () => {
     if (inputCategory.trim() === "") {
-      // alert("Please enter a category.");
-      setFlashMessageType("error");
-      setFlashMessage("Please enter a category.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("error", "Please enter a Category");
       return;
     }
     const newCategory = {
@@ -66,13 +68,8 @@ export default function useTodo() {
     setInputCategory("");
     // console.log(category)
     try {
-      const res = await addData(Stores.Categories, newCategory);
-      setFlashMessageType("success");
-      setFlashMessage("Category added.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      const res = addData(Stores.Categories, newCategory);
+      flashMessageHandler("success", "Category added");
     } catch (err) {
       console.log(err);
     }
@@ -85,12 +82,7 @@ export default function useTodo() {
   const handleCreateTask = async (categoryId) => {
     const categoryToTest = category.find((cat) => cat.id === categoryId);
     if (categoryToTest.inputTask.trim() === "") {
-      setFlashMessageType("error");
-      setFlashMessage("Please enter a task.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("error", "Please enter a task");
       return;
     }
     const newTask = {
@@ -115,12 +107,7 @@ export default function useTodo() {
       categoryToUpdate.tasks.push(newTask);
       console.log("Updated category:", categoryToUpdate);
       await updateData(Stores.Categories, categoryId, categoryToUpdate);
-      setFlashMessageType("success");
-      setFlashMessage("Task added.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("success", "Task added");
     } else {
       console.error(`Category with id ${categoryId} not found`);
     }
@@ -143,12 +130,7 @@ export default function useTodo() {
       category.tasks = category.tasks.filter((task) => task.id !== taskId);
       await putData(Stores.Categories, category);
       loadCategories();
-      setFlashMessageType("success");
-      setFlashMessage("Task deleted.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("success", "Task deleted");
     } else {
       console.error(`No tasks found for category with id ${categoryId}`);
     }
@@ -160,12 +142,7 @@ export default function useTodo() {
 
   const handleEditTask = async (taskId) => {
     setEditingTask(taskId);
-    setFlashMessageType("warn");
-    setFlashMessage("You are trying to edit a Task.");
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMessageType("");
-    }, 3000);
+    flashMessageHandler("warn", "You are trying to edit a task");
     // console.log(`editingTask: ${editingTask}`)
     const categories = await getStoreData(Stores.Categories);
     for (let category of categories) {
@@ -183,12 +160,7 @@ export default function useTodo() {
       console.log("category id", categoryId);
       console.log("task id", taskId);
       await updateTaskName(Stores.Categories, categoryId, taskId, newTaskName);
-      setFlashMessageType("success");
-      setFlashMessage("Task edited successfully.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("success", "Task edited successfully");
       loadCategories();
       setEditingTask(null);
       setNewTaskName("");
@@ -202,12 +174,7 @@ export default function useTodo() {
     await deleteData(Stores.Categories, categoryId);
     loadCategories();
     closeDeleteModal();
-    setFlashMessageType("success");
-    setFlashMessage("Category deleted.");
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMessageType("");
-    }, 3000);
+    flashMessageHandler("success", "Category deleted");
   };
 
   const handleEditCategory = async (categoryId) => {
@@ -219,12 +186,7 @@ export default function useTodo() {
     if (categoryToEdit) {
       setNewCategoryName(categoryToEdit.cate);
       loadCategories();
-      setFlashMessageType("warn");
-      setFlashMessage("You are trying to edit a Category.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("warn", "You are trying to edit a category");
     }
   };
 
@@ -234,12 +196,7 @@ export default function useTodo() {
       loadCategories();
       setEditingCategory(null);
       setNewCategoryName("");
-      setFlashMessageType("success");
-      setFlashMessage("Category edited successfully.");
-      setTimeout(() => {
-        setFlashMessage("");
-        setFlashMessageType("");
-      }, 3000);
+      flashMessageHandler("success", "Category edited successfully");
     } catch (error) {
       console.error(`Failed to update task: ${error.message}`);
     }

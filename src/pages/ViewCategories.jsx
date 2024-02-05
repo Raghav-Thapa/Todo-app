@@ -1,8 +1,9 @@
-import useTodo from "../components/Crud/TodoCrud";
+import useTodo from "../hooks/TodoCrud";
 import { TextInput } from "../components/Input/Textinput";
 import { useState } from "react";
 import todoImg from "../assets/todo.png";
 import { CategoryInput } from "../components/Input/Textinput";
+import FlashMessage from "../components/FlashMessage/FlashMessageComponent";
 
 const ViewCategories = () => {
   const {
@@ -63,27 +64,10 @@ const ViewCategories = () => {
             </button>
           </h3>
           {flashMessage && (
-            <div
-              data-testid="flash-message"
-              className={`flashMessage ${flashMessageType}`}
-            >
-              {flashMessageType === "success" ? (
-                <>
-                  <i className="fa-solid fa-check me-3"></i> {flashMessage}{" "}
-                </>
-              ) : flashMessageType === "warn" ? (
-                <>
-                  <i className="fa-solid fa-exclamation-triangle me-3"></i>{" "}
-                  {flashMessage}{" "}
-                </>
-              ) : flashMessageType === "error" ? (
-                <>
-                  <i className="fa-solid fa-times me-3"></i> {flashMessage}{" "}
-                </>
-              ) : (
-                { flashMessage }
-              )}
-            </div>
+            <FlashMessage
+              flashMessage={flashMessage}
+              flashMessageType={flashMessageType}
+            />
           )}
 
           <div className="lg:ms-2">
@@ -130,10 +114,16 @@ const ViewCategories = () => {
                 >
                   <i className="fa-solid fa-pen-to-square"></i>
                 </button>
+                <button
+                  className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2"
+                  onClick={() => openDeleteModal(cate.id)}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </button>
                 {editingCategory === cate.id && (
                   <div>
                     <input
-                      className="border border-black bg-transparent ms-4"
+                      className="border border-black bg-transparent ms-7 mt-3"
                       type="text"
                       value={newCategoryName}
                       onChange={(e) => setNewCategoryName(e.target.value)}
@@ -149,12 +139,6 @@ const ViewCategories = () => {
                     </button>
                   </div>
                 )}
-                <button
-                  className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2"
-                  onClick={() => openDeleteModal(cate.id)}
-                >
-                  <i className="fa-solid fa-trash"></i>
-                </button>
               </div>
             ))}
           </div>
@@ -162,7 +146,7 @@ const ViewCategories = () => {
 
         <div className="lg:w-4/5 w-3/5 h-screen overflow-hidden  overflow-x-hidden overflow-y-scroll max-h-screen relative ">
           <h1 className="lg:ps-28 ps-12 lg:pt-16 pt-8 font lg:text-5xl text-2xl">
-            Organinze and Manage <br /> Your{" "}
+            Organinze and Manage <br /> Your
             <span style={{ color: "#29a2bd" }}> Tasks </span>
           </h1>
           <img
@@ -191,7 +175,6 @@ const ViewCategories = () => {
                     );
                   }}
                   handleCreateTask={() => handleCreateTask(cate.id)}
-                  // handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
                   handleDeleteTask={(taskId) =>
                     openDeleteModal(cate.id, taskId)
                   }

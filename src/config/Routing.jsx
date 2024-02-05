@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "../pages/Homepage";
 import ViewCategories from "../pages/ViewCategories";
 
 const Routing = () => {
@@ -7,9 +6,7 @@ const Routing = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />}>
-            <Route index element={<ViewCategories />}></Route>
-          </Route>
+          <Route path="/" element={<ViewCategories />}/>
         </Routes>
       </BrowserRouter>
     </>
