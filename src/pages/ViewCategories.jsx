@@ -4,6 +4,7 @@ import { useState } from "react";
 import todoImg from "../assets/todo.png";
 import { CategoryInput } from "../components/Input/Textinput";
 import FlashMessage from "../components/FlashMessage/FlashMessageComponent";
+import { deleteDb } from "../services/db";
 
 const ViewCategories = () => {
   const {
@@ -47,6 +48,10 @@ const ViewCategories = () => {
     setShowAddCategory(true);
   };
 
+  const handleDeletedb = () =>{
+    deleteDb()
+  }
+
   return (
     <>
       {/* <h1>All Categories</h1> */}
@@ -55,6 +60,7 @@ const ViewCategories = () => {
           <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
             Todo List
           </h1>
+          <h1><button onClick={handleDeletedb}>Delete Db</button></h1>
           <h3 className="lg:text-2xl text-lg fontt">
             {" "}
             <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
