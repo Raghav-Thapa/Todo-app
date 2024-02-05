@@ -166,7 +166,7 @@ export default function useTodo() {
       setFlashMessage("");
       setFlashMessageType("");
     }, 3000);
-    // console.log(`editingTask: ${editingTask}`);
+    // console.log(`editingTask: ${editingTask}`)
     const categories = await getStoreData(Stores.Categories);
     for (let category of categories) {
       const taskToEdit = category.tasks.find((task) => task.id === taskId);
