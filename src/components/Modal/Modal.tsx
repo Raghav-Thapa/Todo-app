@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactEventHandler } from "react";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -8,20 +8,16 @@ interface TModal {
   onClose?: Function;
 }
 
-export default function Modal({
-  children,
-  open,
-  onClose,
-}: TModal) {
+export default function Modal({ children, open, onClose }: TModal) {
   // console.log('from modal component',open);
-  const dialog = useRef();
+  const dialog = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    const modal = dialog.current ?? {};
+    const modal = dialog.current;
 
-    if (open) {
+    if (open && modal) {
       modal.showModal();
-    } else {
+    } else if (modal) {
       modal.close();
     }
   }, [open]);
@@ -30,10 +26,10 @@ export default function Modal({
     <dialog
       className="modelStyle w-64 h-40 text-center p-8 rounded-2xl "
       ref={dialog}
-      onClose={onClose}
+      onClose={onClose as ReactEventHandler<HTMLDialogElement>}
     >
       {children}
     </dialog>,
-    document.getElementById("modal")
+    document.getElementById("modal") ?? document.body
   );
 }

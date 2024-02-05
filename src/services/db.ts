@@ -1,5 +1,5 @@
-let request;
-let db;
+let request : any;
+let db : any;
 let version = 1;
 
 export const Stores = {
@@ -11,7 +11,7 @@ export const initDB = () => {
     version++;
     request = indexedDB.open('myCategory', version);
 
-    request.onupgradeneeded = (event) => {
+    request.onupgradeneeded = (event: any) => {
       db = event.target.result;
 
       if (!db.objectStoreNames.contains(Stores.Categories)) {
@@ -26,7 +26,7 @@ export const initDB = () => {
       resolve(true);
     };
 
-    request.onerror = (event) => {
+    request.onerror = (event: any) => {
       console.log('request.onerror - initDB', event);
       reject(event);
     };

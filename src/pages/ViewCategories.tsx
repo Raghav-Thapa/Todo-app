@@ -13,7 +13,6 @@ const ViewCategories = (
         handleEditTask,
         category,
         handleCreateTask,
-        handleDeleteTask,
         setCategory,
         setEditingCategory,
         handleSaveTask,
@@ -25,27 +24,38 @@ const ViewCategories = (
         DeleteConfirmationModal,
         openDeleteModal,
         handleEditCategory,
-        handleDeleteCategory,
         handleSaveCategory,
         editingCategory,
         newCategoryName,
         setNewCategoryName,
     } = useTodo();
 
-    const [viewTask, setViewTask] = useState(false)
+    const [viewTask, setViewTask] = useState<boolean>(false);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+      null
+    );
+    const [showAddCategory, setShowAddCategory] = useState<boolean>(false);
 
-    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-    const handleViewTask = (id) => {
-        setViewTask(true)
-        setSelectedCategoryId(id);
-
+    const handleViewTask = (id: number) => {
+      setViewTask(true);
+      setSelectedCategoryId(id);
     };
-    const [showAddCategory, setShowAddCategory] = useState(false)
+
+    // const [viewTask, setViewTask] = useState(false)
+
+    // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+    // const handleViewTask = (id: React.SetStateAction<null>) => {
+    //     setViewTask(true)
+    //     setSelectedCategoryId(id);
+
+    // };
+    // const [showAddCategory, setShowAddCategory] = useState(false)
 
     const handleClickAddCategory = () => {
         setShowAddCategory(true)
     }
+   
 
     return (<>
         {/* <h1>All Categories</h1> */}
@@ -57,7 +67,7 @@ const ViewCategories = (
                     {flashMessageType === 'success' ? (<><i className="fa-solid fa-check me-3"></i> {flashMessage} </>)
                         : flashMessageType === 'warn' ? (<><i className="fa-solid fa-exclamation-triangle me-3"></i> {flashMessage} </>)
                             : flashMessageType === 'error' ? (<><i className="fa-solid fa-times me-3"></i> {flashMessage} </>)
-                                : ({ flashMessage  })}
+                                : flashMessage}
                 </div>}
 
                 <div className="ms-2">
@@ -66,7 +76,6 @@ const ViewCategories = (
                             inputCategory={inputCategory}
                             handleCategoryChange={handleCategoryChange}
                             handleAddCategory={handleAddCategory}
-                            setEditingCategory={setEditingCategory}
                             setShowAddCategory={setShowAddCategory}
                         />}
                 </div>
@@ -91,7 +100,7 @@ const ViewCategories = (
                                     </button>
                                 </div>
                             )}
-                            <button className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2" onClick={() => openDeleteModal(cate.id)}><i className="fa-solid fa-trash"></i></button>
+                            <button className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2" onClick={() => openDeleteModal(cate.id, null)}><i className="fa-solid fa-trash"></i></button>
                         </div>
                     ))}
 
@@ -106,9 +115,8 @@ const ViewCategories = (
                         {viewTask && cate.id === selectedCategoryId &&
                             <TextInput
                                 parent={cate.id}
-                                cate={cate.cate}
                                 inputTask={cate.inputTask}
-                                handleChange={(e) => {
+                                handleChange={(e: { target: { value: any; }; }) => {
                                     const newInputTask = e.target.value;
                                     setCategory((prevCategory) =>
                                         prevCategory.map((prevCat) =>
@@ -120,13 +128,13 @@ const ViewCategories = (
                                 }}
                                 handleCreateTask={() => handleCreateTask(cate.id)}
                                 // handleDeleteTask={(taskId) => handleDeleteTask(cate.id, taskId)}
-                                handleDeleteTask={(taskId) => openDeleteModal(cate.id, taskId)}
+                                handleDeleteTask={(taskId: number) => openDeleteModal(cate.id, taskId)}
                                 tasks={cate.tasks || []}
-                                handleEditTask={(taskId) => handleEditTask(taskId)}
+                                handleEditTask={(taskId: number) => handleEditTask(taskId)}
                                 newTaskName={newTaskName}
                                 setNewTaskName={setNewTaskName}
                                 handleSaveTask={handleSaveTask}
-                                editingTask={editingTask}
+                               
                             />
                         }
                     </div>

@@ -15,13 +15,17 @@ export function TextInput({
   tasks,
   parent,
 }) {
-  const [editing, setEditing] = useState(null);
+  const [editing, setEditing] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [taskStatus, setTaskStatus] = useState<Record<string, string>>({});
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [editing, setEditing] = useState(null);
 
-  const [taskStatus, setTaskStatus] = useState({});
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleClickTaskStatusPending = async (id) => {
+  // const [taskStatus, setTaskStatus] = useState({});
+
+  const handleClickTaskStatusPending = async (id: any) => {
     try {
       await updateTaskStatus("categories", parent, id, "pending");
       setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "pending" }));
@@ -30,7 +34,7 @@ export function TextInput({
     }
   };
 
-  const handleClickTaskStatusStarted = async (id) => {
+  const handleClickTaskStatusStarted = async (id: any) => {
     try {
       await updateTaskStatus("categories", parent, id, "started");
       setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "started" }));
@@ -39,7 +43,7 @@ export function TextInput({
     }
   };
 
-  const handleClickTaskStatusCompleted = async (id) => {
+  const handleClickTaskStatusCompleted = async (id: any) => {
     try {
       await updateTaskStatus("categories", parent, id, "completed");
       setTaskStatus((prevStatuses) => ({ ...prevStatuses, [id]: "completed" }));
@@ -50,11 +54,14 @@ export function TextInput({
 
   useEffect(() => {
     Promise.all(
-      tasks.map(async (task) => {
+      tasks.map(async (task: { id: any }) => {
         try {
-          const dbTask = await getTask("categories", parent, task.id);
+          const dbTask = (await getTask("categories", parent, task.id)) as {
+            id: any;
+            status: string;
+          };
           if (dbTask) {
-            setTaskStatus((prevStatuses) => ({
+            setTaskStatus((prevStatuses: { [key: string]: string }) => ({
               ...prevStatuses,
               [dbTask.id]: dbTask.status,
             }));
@@ -194,8 +201,8 @@ export function TextInput({
         ))}
       </ul>
       <button
-        className="ms-10 w-48 h-10 text-lg
-                 font-semibold rounded-full bg-sky-700 text-white"
+        className="px-5 py-3 mx-5 my-5 text-lg
+                  rounded-lg bg-sky-700 text-white"
         onClick={() => setIsModalOpen(true)}
       >
         Add task
@@ -211,9 +218,9 @@ export function CategoryInput({
   setShowAddCategory,
 }) {
   return (
-    <>
+    <div className="flex items-center m-3 justify-start space-x-2">
       <input
-        className="mt-5 border-4"
+        className=" border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
         type="text"
         name="cate"
         placeholder="create new category"
@@ -221,15 +228,15 @@ export function CategoryInput({
         onChange={handleCategoryChange}
       />
       <button
-        className="px-2 inline-flex text-xs leading-5
-                      font-semibold rounded-full bg-sky-600 text-white ms-1"
+        className="px-5 py-2 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-600 text-white ms-1"
         onClick={() => {
           handleAddCategory();
           setShowAddCategory(false);
         }}
       >
-        Add Category
+        Add
       </button>
-    </>
+    </div>
   );
 }

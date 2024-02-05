@@ -1,8 +1,8 @@
-let request;
-let db;
+let request : any;
+let db : any;
 let version = 1;
 
-export const addData = (storeName, data) => {
+export const addData = (storeName: string, data: any) => {
   return new Promise((resolve) => {
     request = indexedDB.open("myCategory", version);
 
@@ -18,7 +18,7 @@ export const addData = (storeName, data) => {
         request = null;
 
         request = indexedDB.open("myCategory", newVersion);
-        request.onupgradeneeded = (event) => {
+        request.onupgradeneeded = (event: { target: { result: any; }; }) => {
           db = event.target.result;
           console.log(`Creating ${storeName} store in onupgradeneeded`);
           db.createObjectStore(storeName, { keyPath: "id" });
@@ -50,7 +50,7 @@ export const addData = (storeName, data) => {
   });
 };
 
-export const getStoreData = (storeName) => {
+export const getStoreData = (storeName: string ) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -76,7 +76,7 @@ export const getStoreData = (storeName) => {
 };
 
 
-export const getStoreDataForAddingTasks = (storeName : String, key: Number) => {
+export const getStoreDataForAddingTasks = (storeName : string, key: number) => {
   return new Promise((resolve, reject) => {
     if (key === null || key === undefined) {
       reject(new Error("Key is null or undefined"));
@@ -107,7 +107,7 @@ export const getStoreDataForAddingTasks = (storeName : String, key: Number) => {
   });
 };
 
-export const updateData = (storeName, key, updatedData) => {
+export const updateData = (storeName: string, key: number, updatedData: {}) => {
   console.log("updateData called with:", storeName, key, updatedData);
   return new Promise((resolve, reject) => {
     request = indexedDB.open("myCategory");
@@ -188,7 +188,7 @@ export const updateData = (storeName, key, updatedData) => {
   });
 };
 
-export const putData = (storeName, data) => {
+export const putData = (storeName: string, data: any) => {
   console.log("putData called with:", storeName, data);
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
@@ -211,7 +211,7 @@ export const putData = (storeName, data) => {
   });
 };
 
-export const deleteData = (storeName, key) => {
+export const deleteData = (storeName: string, key: number) => {
   return new Promise((resolve) => {
     request = indexedDB.open("myCategory", version);
 
@@ -232,7 +232,7 @@ export const deleteData = (storeName, key) => {
   });
 };
 
-export const editCategory = (storeName, key, updatedData) => {
+export const editCategory = (storeName: string, key: number, updatedData: any) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -267,7 +267,7 @@ export const editCategory = (storeName, key, updatedData) => {
   });
 };
 
-export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
+export const updateCategoryName = (storeName: string, categoryId: number, newCategoryName: string) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -304,7 +304,7 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
   });
 };
 
-export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
+export const updateTaskName = (storeName: string, categoryId: number, taskId: number, newTaskName: string) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -321,7 +321,7 @@ export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
         const data = category.result;
         console.log("success is running");
         // console.log("data to edit is ",data)
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find((task: { id: number; }) => task.id === taskId);
 
         if (task) {
           task.todo = newTaskName;
@@ -349,7 +349,7 @@ export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
   });
 };
 
-export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
+export const updateTaskStatus = (storeName: string, categoryId: number, taskId:number, status: string) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
     console.log("from db", storeName, taskId, status);
@@ -365,7 +365,7 @@ export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
 
       category.onsuccess = () => {
         const data = category.result;
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find((task: { id: number; }) => task.id === taskId);
 
         if (task) {
           task.status = status;
@@ -391,7 +391,7 @@ export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
   });
 };
 
-export const getTask = (storeName, categoryId, taskId) => {
+export const getTask = (storeName: string, categoryId: number, taskId: number) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -415,7 +415,7 @@ export const getTask = (storeName, categoryId, taskId) => {
           return;
         }
 
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find((task: { id: number; }) => task.id === taskId);
 
         if (task) {
           resolve(task);
