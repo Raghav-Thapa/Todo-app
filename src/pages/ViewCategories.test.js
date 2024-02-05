@@ -51,7 +51,7 @@ describe("view categories component", () => {
   test("add category button works", () => {
     render(<ViewCategories />);
     fireEvent.click(screen.getByLabelText("add category"));
-    expect(screen.getByText("Add Category")).toBeInTheDocument();
+    expect(screen.getByText("Add")).toBeInTheDocument();
   });
 
   test("edit category button works", () => {
@@ -66,7 +66,7 @@ describe("view categories component", () => {
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "Test Category" },
     });
-    fireEvent.click(screen.getByText("Add Category"));
+    fireEvent.click(screen.getByText("Add"));
     expect(screen.getByText("Test Category")).toBeInTheDocument();
   });
 
@@ -162,7 +162,7 @@ describe("testing flash message", () => {
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "Test Category" },
     });
-    fireEvent.click(screen.getByText("Add Category"));
+    fireEvent.click(screen.getByText("Add"));
 
     await waitFor(
       () => {
