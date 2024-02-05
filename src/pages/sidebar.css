@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 /* .sideBar{
     width: 20%;
     height: 100vh;
@@ -7,15 +7,17 @@
 
 } */
 
-.sideBar h1, .font{
-    /* text-align: center;
+.sideBar h1,
+.font {
+  /* text-align: center;
     padding-top: 10%; */
-    font-family: 'Lobster', sans-serif;
-    /* font-size: 40px; */
+  font-family: "Lobster", sans-serif;
+  /* font-size: 40px; */
 }
-.sideBar h3, .fontt{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    /* font-size: 22px;
+.sideBar h3,
+.fontt {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  /* font-size: 22px;
     padding-left: 15%;
     display: flex;
     align-items: center;
@@ -25,22 +27,30 @@
     background-image: linear-gradient(to right, #9cd0dc , white); */
 }
 
-body{
-    background-image: linear-gradient(to right, #afe2e6b6 , rgba(184, 200, 205, 0.799));
+body {
+  background-image: linear-gradient(
+    to right,
+    #afe2e6b6,
+    rgba(184, 200, 205, 0.799)
+  );
 }
 
-.categoryList{
-    /* margin-top: 25px; */
-    font-family: 'Franklin Gothic', sans-serif;
-    /* font-size: 19px; */
+.categoryList {
+  /* margin-top: 25px; */
+  font-family: "Franklin Gothic", sans-serif;
+  /* font-size: 19px; */
 }
 
 /* .eachCategory{
     margin-bottom: 15px;
 } */
 
-.eachCategory:hover{
-    background-image: linear-gradient(to right, #afe2e6b6 , rgba(184, 200, 205, 0.799));
+.eachCategory:hover {
+  background-image: linear-gradient(
+    to right,
+    #afe2e6b6,
+    rgba(184, 200, 205, 0.799)
+  );
 }
 
 /* .eachCategory.selected {
@@ -62,18 +72,18 @@ body{
     font-size: 40px;
 } */
 
-.taskList{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    /* font-size: 20px; */
-    /* padding-left: 5%; */
+.taskList {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  /* font-size: 20px; */
+  /* padding-left: 5%; */
 }
 
-.todoImage{
-    /* height: 300px;
+.todoImage {
+  /* height: 300px;
     width: 300px;
     position: absolute; */
-    margin-left: 40%;
-    margin-top: -10%;
+  margin-left: 40%;
+  margin-top: -10%;
 }
 
 /* .task{
@@ -96,7 +106,6 @@ body{
     box-shadow: 10px 10px 10px 0px rgb(115, 113, 113);
 } */
 
-
 /* .tablee{
     width: 1210px;
     background-image: linear-gradient(to right, #e0cee6 , white);
@@ -107,15 +116,14 @@ body{
     background-color: red !important;
 } */
 
-.modelStyle{
-    /* width: 300px;
+.modelStyle {
+  /* width: 300px;
     height: 150px;
     text-align: center;
     padding: 2%;
     border-radius: 20px; */
-    background-image: linear-gradient(to right, #a496a7 , rgb(200, 196, 196));
+  background-image: linear-gradient(to right, #a496a7, rgb(200, 196, 196));
 }
-
 
 /* .editTask{
     position: absolute;
@@ -123,30 +131,30 @@ body{
     margin-left: 9%;
 } */
 
-.flashMessage.error{
-    background-image: linear-gradient(to right, #e82121 , rgb(232, 106, 106));
+.flashMessage.error {
+  background-image: linear-gradient(to right, #e82121, rgb(232, 106, 106));
 }
 
-.flashMessage{
-    background-image: linear-gradient(to right, #0ac13e , rgb(59, 165, 80));
-    width: 300px;
-    color: white;
-    font-weight: bold;
-    height: 50px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 80%;
-    margin-top: -10%;
-    position: fixed;
-    float: right;
+.flashMessage {
+  background-image: linear-gradient(to right, #0ac13e, rgb(59, 165, 80));
+  width: 300px;
+  color: white;
+  font-weight: bold;
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 80%;
+  margin-top: -10%;
+  position: fixed;
+  float: right;
 }
 
-.flashMessage .success{
-    background-image: linear-gradient(to right, #0ac13e , rgb(59, 165, 80));
+.flashMessage .success {
+  background-image: linear-gradient(to right, #0ac13e, rgb(59, 165, 80));
 }
 
-.flashMessage   .warn{
-    background-image: linear-gradient(to right, #dce805 , rgb(203, 198, 45));
+.flashMessage .warn {
+  background-image: linear-gradient(to right, #dce805, rgb(203, 198, 45));
 }
