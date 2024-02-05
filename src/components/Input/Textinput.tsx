@@ -98,8 +98,10 @@ export function TextInput({
           </button>
         </Modal>
       )}
-      <h1 className="ms-10 mt-16 text-3xl">My Tasks</h1>
-      <ul className="todolists mb-5 mt-8 ">
+      <h1 className="lg:ms-10 ms-5 mt-8 text-xl lg:mt-16 lg:text-3xl">
+        My Tasks
+      </h1>
+      <ul className="todolists mb-5 lg:mt-8 mt-5 ">
         {tasks.map((todo) => (
           <li
             className="task w-4/5 border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5"
@@ -122,8 +124,8 @@ export function TextInput({
                 }}
                 className={
                   taskStatus[todo.id] === "pending"
-                    ? "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800"
-                    : "ms-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"
+                    ? "ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800"
+                    : "ms-5 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"
                 }
               >
                 Pending
@@ -159,7 +161,7 @@ export function TextInput({
               <br />
               <button
                 onClick={() => handleDeleteTask(todo.id)}
-                className="ms-5 me-3 px-2  text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800"
+                className="ms-5 me-3 px-2 mt-3 text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800"
               >
                 Delete
               </button>
@@ -177,15 +179,16 @@ export function TextInput({
               </button>
 
               {editing === todo.id && (
-                <div className="editTask">
+                <div className="editTask flex items-center m-3 ms-5 justify-start space-x-2">
                   <input
-                    className="border-4"
+                    className=" border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
                     type="text"
                     value={newTaskName}
                     onChange={(e) => setNewTaskName(e.target.value)}
                   />
                   <button
-                    className="ms-2 me-3 px-2  text-lg leading-5 font-semibold rounded-full bg-sky-500 text-white   "
+                    className="px-5 py-2 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-600 text-white ms-1 "
                     onClick={() => {
                       handleSaveTask(parent, todo.id, newTaskName);
                       // console.log('from  button click', parent, todo.id, newTaskName)
@@ -218,9 +221,9 @@ export function CategoryInput({
   setShowAddCategory,
 }) {
   return (
-    <div className="flex items-center m-3 justify-start space-x-2">
+    <div className="flex items-center m-3 justify-start space-x-2 ">
       <input
-        className=" border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
+        className="lg:w-3/4 w-20 border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
         type="text"
         name="cate"
         placeholder="create new category"
@@ -228,7 +231,7 @@ export function CategoryInput({
         onChange={handleCategoryChange}
       />
       <button
-        className="px-5 py-2 inline-flex text-xs leading-5
+        className="px-2 py-1 lg:px-5 lg:py-2 inline-flex text-xs leading-5
                       font-semibold rounded-lg bg-sky-600 text-white ms-1"
         onClick={() => {
           handleAddCategory();
