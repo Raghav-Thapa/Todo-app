@@ -48,9 +48,9 @@ const ViewCategories = () => {
     setShowAddCategory(true);
   };
 
-  const handleDeletedb = () =>{
-    deleteDb()
-  }
+  const handleDeletedb = () => {
+    deleteDb();
+  };
 
   return (
     <>
@@ -60,11 +60,10 @@ const ViewCategories = () => {
           <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
             Todo List
           </h1>
-          <h1><button onClick={handleDeletedb}>Delete Db</button></h1>
+
           <h3 className="lg:text-2xl text-lg fontt">
-            {" "}
             <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
-            Categories{" "}
+            Categories
             <button aria-label="add category" onClick={handleClickAddCategory}>
               <i className="lg:ms-3 ms-2 fa-solid fa-circle-plus"></i>
             </button>
@@ -148,6 +147,14 @@ const ViewCategories = () => {
               </div>
             ))}
           </div>
+
+          <button
+            className="mt-10 px-1 py-1 items-end lg:px-2 lg:py-1 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-800 text-white ms-1"
+            onClick={handleDeletedb}
+          >
+            Delete Db
+          </button>
         </div>
 
         <div className="lg:w-4/5 w-3/5 h-screen overflow-hidden  overflow-x-hidden overflow-y-scroll max-h-screen relative ">
