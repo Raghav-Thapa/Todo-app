@@ -5,6 +5,12 @@ import todoImg from "../assets/todo.png";
 import { CategoryInput } from "../components/Input/Textinput";
 import FlashMessage from "../components/FlashMessage/FlashMessageComponent";
 import { deleteDb } from "../services/db";
+import {
+  EditDeleteButtons,
+  ViewTasksButton,
+  AddCategoryButton,
+  SaveEditCategoryButton,
+} from "../components/Buttons/ButtonComponent";
 
 const ViewCategories = () => {
   const {
@@ -64,9 +70,9 @@ const ViewCategories = () => {
           <h3 className="lg:text-2xl text-lg fontt">
             <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
             Categories
-            <button aria-label="add category" onClick={handleClickAddCategory}>
-              <i className="lg:ms-3 ms-2 fa-solid fa-circle-plus"></i>
-            </button>
+            <AddCategoryButton
+              handleClickAddCategory={handleClickAddCategory}
+            />
           </h3>
           {flashMessage && (
             <FlashMessage
@@ -94,37 +100,17 @@ const ViewCategories = () => {
                 }`}
                 key={cate.id}
               >
-                <button
-                  aria-label="view tasks"
-                  className="lg:ms-10 ms-3"
-                  onClick={() => handleViewTask(cate.id)}
-                >
-                  {selectedCategoryId === cate.id ? (
-                    <i
-                      style={{ marginRight: "10px" }}
-                      className="fa-solid fa-square-check"
-                    ></i>
-                  ) : (
-                    <i
-                      style={{ marginRight: "10px" }}
-                      className="fa-regular fa-square-check"
-                    ></i>
-                  )}
-                  {cate.cate}
-                </button>{" "}
-                <button
-                  aria-label="edit category"
-                  className="lg:me-3 me-1 ms-1 lg:ms-3 mt-10 inline-flex lg:text-lg text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800 p-1 justify-center items-center"
-                  onClick={() => handleEditCategory(cate.id)}
-                >
-                  <i className="fa-solid fa-pen-to-square"></i>
-                </button>
-                <button
-                  className="p-1 inline-flex text-lg leading-5 font-semibold  rounded-full bg-red-200 text-red-800 ms-2"
-                  onClick={() => openDeleteModal(cate.id)}
-                >
-                  <i className="fa-solid fa-trash"></i>
-                </button>
+                <ViewTasksButton
+                  handleViewTask={handleViewTask}
+                  cateId={cate.id}
+                  cate={cate}
+                  isSelected={selectedCategoryId === cate.id}
+                />
+                <EditDeleteButtons
+                  categoryId={cate.id}
+                  handleEditCategory={handleEditCategory}
+                  openDeleteModal={openDeleteModal}
+                />
                 {editingCategory === cate.id && (
                   <div>
                     <input
@@ -133,15 +119,11 @@ const ViewCategories = () => {
                       value={newCategoryName}
                       onChange={(e) => setNewCategoryName(e.target.value)}
                     />
-                    <button
-                      aria-label="save edit category"
-                      className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2"
-                      onClick={() => {
-                        handleSaveCategory(cate.id, newCategoryName);
-                      }}
-                    >
-                      Save
-                    </button>
+                    <SaveEditCategoryButton
+                      handleSaveCategory={handleSaveCategory}
+                      cateId={cate.id}
+                      newCategoryName={newCategoryName}
+                    />
                   </div>
                 )}
               </div>

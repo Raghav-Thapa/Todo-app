@@ -3,8 +3,7 @@ import "./index.css";
 import Routing from "./config/Routing.jsx";
 import "./pages/sidebar.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
-import React, { useEffect } from "react";
+import React from "react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
