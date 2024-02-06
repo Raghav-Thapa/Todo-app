@@ -4,33 +4,26 @@ let version = 1;
 
 export const addData = (storeName, data) => {
   return new Promise((resolve) => {
+    let version = parseInt(localStorage.getItem("dbVersion")) || 1;
     request = indexedDB.open("myCategory", version);
 
+    request.onupgradeneeded = (event) => {
+      db = event.target.result;
+      console.log(`Creating ${storeName} store in onupgradeneeded`);
+      db.createObjectStore(storeName, { keyPath: "id" });
+    };
+
     request.onsuccess = () => {
-      console.log("request.onsuccess - addData", data);
       db = request.result;
 
       if (!db.objectStoreNames.contains(storeName)) {
         console.log(`Creating ${storeName} store`);
         db.close();
         const newVersion = db.version + 1;
-        version = newVersion;
+        localStorage.setItem("dbVersion", newVersion);
         request = null;
 
         request = indexedDB.open("myCategory", newVersion);
-        request.onupgradeneeded = (event) => {
-          db = event.target.result;
-          console.log(`Creating ${storeName} store in onupgradeneeded`);
-          db.createObjectStore(storeName, { keyPath: "id" });
-        };
-
-        request.onsuccess = () => {
-          db = request.result;
-          const tx = db.transaction(storeName, "readwrite");
-          const store = tx.objectStore(storeName);
-          store.add(data);
-          resolve(data);
-        };
       } else {
         const tx = db.transaction(storeName, "readwrite");
         const store = tx.objectStore(storeName);
@@ -116,15 +109,13 @@ export const updateData = (storeName, key, updatedData) => {
     request.onsuccess = () => {
       let db = request.result;
 
-      // Check if the object store exists, and create it if it doesn't
       if (!db.objectStoreNames.contains(storeName)) {
         console.log(`Creating ${storeName} store`);
-        db.close(); // Close the database to allow for store creation
-        const newVersion = db.version + 1;
+        db.close();
+        const newVersion = db.version;
         version = newVersion;
-        request = null; // Reset the request object
+        request = null;
 
-        // Reopen the database with an updated version and create the store
         request = indexedDB.open("myCategory", newVersion);
         request.onupgradeneeded = (event) => {
           db = event.target.result;
@@ -159,7 +150,6 @@ export const updateData = (storeName, key, updatedData) => {
           };
         };
       } else {
-        // If the store already exists, proceed with the transaction
         const transaction = db.transaction(storeName, "readwrite");
         const store = transaction.objectStore(storeName);
 
@@ -217,11 +207,12 @@ export const putData = (storeName, data) => {
 
 export const deleteData = (storeName, key) => {
   return new Promise((resolve) => {
-    request = indexedDB.open("myCategory", version);
+    let version = parseInt(localStorage.getItem("dbVersion")) || 1;
+    let request = indexedDB.open("myCategory", version);
 
     request.onsuccess = () => {
       console.log("request.onsuccess - deleteData", key);
-      db = request.result;
+      let db = request.result;
       const tx = db.transaction(storeName, "readwrite");
       const store = tx.objectStore(storeName);
       const res = store.delete(key);
@@ -232,6 +223,11 @@ export const deleteData = (storeName, key) => {
       res.onerror = () => {
         resolve(false);
       };
+    };
+
+    request.onerror = () => {
+      console.log("request.onerror - deleteData", request.error);
+      resolve(false);
     };
   });
 };

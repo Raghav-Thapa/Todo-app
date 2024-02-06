@@ -1,30 +1,34 @@
+let request;
 let db;
+let version = 1;
 
 export const Stores = {
   Categories: "categories",
 };
 
-const DB_NAME = "myCategory";
-const INITIAL_VERSION = 1;
-
-export const initDB = (version = INITIAL_VERSION) => {
+export const initDB = () => {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, version);
+    version++;
+    request = indexedDB.open("myCategory", version);
 
     request.onupgradeneeded = (event) => {
       db = event.target.result;
+
       if (!db.objectStoreNames.contains(Stores.Categories)) {
+        console.log("Creating categories store");
         db.createObjectStore(Stores.Categories, { keyPath: "id" });
       }
     };
 
-    request.onsuccess = (event) => {
-      db = event.target.result;
-      resolve(db);
+    request.onsuccess = () => {
+      db = request.result;
+      console.log("request.onsuccess - initDB", db.version);
+      resolve(true);
     };
 
     request.onerror = (event) => {
-      reject(event.target.error);
+      console.log("request.onerror - initDB", event);
+      reject(event);
     };
   });
 };
