@@ -35,4 +35,5 @@ export const initDB = () => {
 
 export const deleteDb = () => {
   indexedDB.deleteDatabase("myCategory");
+  localStorage.removeItem("dbVersion");
 };

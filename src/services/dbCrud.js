@@ -5,31 +5,23 @@ let version = 1;
 export const addData = (storeName, data) => {
   return new Promise((resolve) => {
     let version = parseInt(localStorage.getItem("dbVersion")) || 1;
-    request = indexedDB.open("myCategory", version);
+    let request = indexedDB.open("myCategory", version + 1);
 
     request.onupgradeneeded = (event) => {
-      db = event.target.result;
+      let db = event.target.result;
       console.log(`Creating ${storeName} store in onupgradeneeded`);
-      db.createObjectStore(storeName, { keyPath: "id" });
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.createObjectStore(storeName, { keyPath: "id" });
+      }
     };
 
     request.onsuccess = () => {
-      db = request.result;
-
-      if (!db.objectStoreNames.contains(storeName)) {
-        console.log(`Creating ${storeName} store`);
-        db.close();
-        const newVersion = db.version + 1;
-        localStorage.setItem("dbVersion", newVersion);
-        request = null;
-
-        request = indexedDB.open("myCategory", newVersion);
-      } else {
-        const tx = db.transaction(storeName, "readwrite");
-        const store = tx.objectStore(storeName);
-        store.add(data);
-        resolve(data);
-      }
+      let db = request.result;
+      localStorage.setItem("dbVersion", db.version);
+      const tx = db.transaction(storeName, "readwrite");
+      const store = tx.objectStore(storeName);
+      store.add(data);
+      resolve(data);
     };
 
     request.onerror = () => {
