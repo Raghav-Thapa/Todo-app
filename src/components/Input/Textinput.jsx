@@ -13,6 +13,7 @@ export function TextInput({
   handleSaveTask,
   tasks,
   parent,
+  cate,
 }) {
   const [editing, setEditing] = useState(null);
 
@@ -36,11 +37,25 @@ export function TextInput({
     todo,
     activeStyle,
     inactiveStyle,
+    disabledStyle,
   }) => {
+    const isTaskComplete = taskStatus[todo.id] === "completed";
+    const isCurrentButtonComplete = status === "completed";
+    const isDisabled = isTaskComplete && !isCurrentButtonComplete;
+
+    let buttonStyle;
+    if (isDisabled) {
+      buttonStyle = disabledStyle;
+    } else {
+      buttonStyle =
+        taskStatus[todo.id] === status ? activeStyle : inactiveStyle;
+    }
+
     return (
       <button
         onClick={() => handleClick(todo.id, status)}
-        className={taskStatus[todo.id] === status ? activeStyle : inactiveStyle}
+        className={buttonStyle}
+        disabled={isDisabled}
       >
         {status}
       </button>
@@ -91,30 +106,62 @@ export function TextInput({
         </Modal>
       )}
       <h1 className="lg:ms-10 ms-5 mt-8 text-xl lg:mt-16 lg:text-3xl">
-        My Tasks
+        {cate}
       </h1>
-      <ul className="todolists mb-5 lg:mt-8 mt-5">
+      <ul className="mb-5 lg:mt-8 mt-5">
         {tasks.map((todo) => (
           <li
             className="task w-4/5 border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5"
             key={todo.id}
           >
-            <input
-              onClick={() => handleClickTaskStatus(todo.id, "completed")}
-              type="checkbox"
-              readOnly
-              checked={taskStatus[todo.id] === "completed"}
-              name=""
-              id=""
-            />{" "}
-            {todo.todo}
-            <br />
+            <div className="flex ms-1">
+              <input
+                onClick={() => handleClickTaskStatus(todo.id, "completed")}
+                type="checkbox"
+                readOnly
+                checked={taskStatus[todo.id] === "completed"}
+                name=""
+                id=""
+              />{" "}
+              {editing === todo.id ? (
+                <div className="ms-3 space-x-2">
+                  <input
+                    className="border border-black rounded-md bg-transparent autofill:bg-transparent"
+                    type="text"
+                    value={newTaskName}
+                    onChange={(e) => setNewTaskName(e.target.value)}
+                  />
+                  <button
+                    className="px-5 py-2 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-600 text-white ms-1 "
+                    onClick={() => {
+                      handleSaveTask(parent, todo.id, newTaskName);
+                      // console.log('from  button click', parent, todo.id, newTaskName)
+                      setEditing(null);
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
+              ) : (
+                <span
+                  className={
+                    taskStatus[todo.id] === "completed"
+                      ? "line-through ms-3"
+                      : "ms-3"
+                  }
+                >
+                  {todo.todo}
+                </span>
+              )}
+            </div>
             <>
               <StatusButton
                 status="pending"
                 handleClick={handleClickTaskStatus}
                 taskStatus={taskStatus}
                 todo={todo}
+                disabledStyle="ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full  text-slate-800 opacity-20"
                 activeStyle="ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-400 text-slate-800"
                 inactiveStyle="ms-5 mt-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-slate-800"
               />
@@ -123,6 +170,7 @@ export function TextInput({
                 handleClick={handleClickTaskStatus}
                 taskStatus={taskStatus}
                 todo={todo}
+                disabledStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800 opacity-20"
                 activeStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-300 text-blue-800"
                 inactiveStyle="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-blue-800"
               />
@@ -145,7 +193,12 @@ export function TextInput({
                 Delete
               </button>
               <button
-                className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                disabled={taskStatus[todo.id] === "completed"}
+                className={
+                  taskStatus[todo.id] === "completed"
+                    ? "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 opacity-20"
+                    : "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                }
                 onClick={() => {
                   console.log(
                     `Edit button clicked for task with ID: ${todo.id}`
@@ -156,8 +209,8 @@ export function TextInput({
               >
                 Edit
               </button>
-
-              {editing === todo.id && (
+              {/* 
+              {editing === todo.id ? (
                 <div className="editTask flex items-center m-3 ms-5 justify-start space-x-2">
                   <input
                     className="border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
@@ -177,7 +230,7 @@ export function TextInput({
                     Save
                   </button>
                 </div>
-              )}
+              ) : () } */}
             </>
           </li>
         ))}

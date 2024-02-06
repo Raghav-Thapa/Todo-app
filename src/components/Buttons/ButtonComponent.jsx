@@ -6,10 +6,10 @@ export const EditDeleteButtons = ({
   openDeleteModal,
 }) => {
   return (
-    <>
+    <div>
       <button
         aria-label="edit category"
-        className="lg:me-3 me-1 ms-1 lg:ms-3 mt-10 inline-flex lg:text-lg text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800 p-1 justify-center items-center"
+        className="lg:me-3 me-1 ms-1 lg:ms-3  inline-flex lg:text-lg text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800 p-1"
         onClick={() => handleEditCategory(categoryId)}
       >
         <i className="fa-solid fa-pen-to-square"></i>
@@ -20,7 +20,7 @@ export const EditDeleteButtons = ({
       >
         <i className="fa-solid fa-trash"></i>
       </button>
-    </>
+    </div>
   );
 };
 
@@ -38,20 +38,9 @@ export const ViewTasksButton = ({
 }) => (
   <button
     aria-label="view tasks"
-    className="lg:ms-10 ms-3"
+    className="lg:ms-1"
     onClick={() => handleViewTask(cateId)}
   >
-    {isSelected ? (
-      <i
-        style={{ marginRight: "10px" }}
-        className="fa-solid fa-square-check"
-      ></i>
-    ) : (
-      <i
-        style={{ marginRight: "10px" }}
-        className="fa-regular fa-square-check"
-      ></i>
-    )}
     {cate.cate}
   </button>
 );

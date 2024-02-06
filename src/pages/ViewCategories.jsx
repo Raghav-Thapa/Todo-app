@@ -58,87 +58,125 @@ const ViewCategories = () => {
     deleteDb();
   };
 
+  const [sideMenu, setSideMenu] = useState(false);
+  const [mainContent, setMainContent] = useState({});
+
+  const handleSideMenu = () => {
+    setSideMenu(true);
+    setMainContent({
+      width: "100%",
+    });
+  };
+
   return (
     <>
       {/* <h1>All Categories</h1> */}
-      <div className="flex">
-        <div className="lg:w-1/5 w-2/5 h-screen shadow-2xl">
-          <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
-            Todo List
-          </h1>
+      <div className="flex ">
+        {sideMenu ? (
+          <div className="mt-3 ms-1 h-16 shadow-2xl w-15 translate-y-8 duration-700">
+            <button
+              onClick={() => {
+                setSideMenu(false);
+              }}
+            >
+              <i
+                class="fa-solid fa-play mt-4 text-5xl"
+                style={{ color: "#29a2bd" }}
+              ></i>
+            </button>
+          </div>
+        ) : (
+          <div className="lg:w-1/5 w-2/5 h-screen shadow-2xl duration-700 ">
+            <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
+              Todo List
+            </h1>
 
-          <h3 className="lg:text-2xl text-lg fontt">
-            <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
-            Categories
-            <AddCategoryButton
-              handleClickAddCategory={handleClickAddCategory}
-            />
-          </h3>
-          {flashMessage && (
-            <FlashMessage
-              flashMessage={flashMessage}
-              flashMessageType={flashMessageType}
-            />
-          )}
-
-          <div className="lg:ms-2">
-            {showAddCategory && (
-              <CategoryInput
-                inputCategory={inputCategory}
-                handleCategoryChange={handleCategoryChange}
-                handleAddCategory={handleAddCategory}
-                setEditingCategory={setEditingCategory}
-                setShowAddCategory={setShowAddCategory}
+            <h3 className="lg:text-2xl text-lg fontt">
+              <button onClick={handleSideMenu}>
+                <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
+              </button>
+              Categories
+              <AddCategoryButton
+                handleClickAddCategory={handleClickAddCategory}
+              />
+            </h3>
+            {flashMessage && (
+              <FlashMessage
+                flashMessage={flashMessage}
+                flashMessageType={flashMessageType}
               />
             )}
-          </div>
-          <div className="categoryList my-4 lg:text-lg text-sm">
-            {category.map((cate) => (
-              <div
-                className={`my-1 eachCategory ${
-                  selectedCategoryId === cate.id ? "selected" : ""
-                }`}
-                key={cate.id}
-              >
-                <ViewTasksButton
-                  handleViewTask={handleViewTask}
-                  cateId={cate.id}
-                  cate={cate}
-                  isSelected={selectedCategoryId === cate.id}
-                />
-                <EditDeleteButtons
-                  categoryId={cate.id}
-                  handleEditCategory={handleEditCategory}
-                  openDeleteModal={openDeleteModal}
-                />
-                {editingCategory === cate.id && (
-                  <div>
-                    <input
-                      className="border border-black bg-transparent ms-7 mt-3"
-                      type="text"
-                      value={newCategoryName}
-                      onChange={(e) => setNewCategoryName(e.target.value)}
-                    />
-                    <SaveEditCategoryButton
-                      handleSaveCategory={handleSaveCategory}
-                      cateId={cate.id}
-                      newCategoryName={newCategoryName}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <button
-            className="mt-10 px-1 py-1 items-end lg:px-2 lg:py-1 inline-flex text-xs leading-5
-                      font-semibold rounded-lg bg-sky-800 text-white ms-1"
-            onClick={handleDeletedb}
-          >
-            Delete Db
-          </button>
-        </div>
 
-        <div className="lg:w-4/5 w-3/5 h-screen overflow-hidden  overflow-x-hidden overflow-y-scroll max-h-screen relative ">
+            <div className="lg:ms-2">
+              {showAddCategory && (
+                <CategoryInput
+                  inputCategory={inputCategory}
+                  handleCategoryChange={handleCategoryChange}
+                  handleAddCategory={handleAddCategory}
+                  setEditingCategory={setEditingCategory}
+                  setShowAddCategory={setShowAddCategory}
+                />
+              )}
+            </div>
+
+            <div className="categoryList my-4 lg:text-lg text-sm">
+              {category.map((cate) => (
+                <div
+                  className={`my-1 ms-4 eachCategory flex flex-row items-center align-bottom`}
+                  key={cate.id}
+                >
+                  {selectedCategoryId === cate.id ? (
+                    <i className="fa-solid fa-square-check ml-5"></i>
+                  ) : (
+                    <i className="fa-regular fa-square-check ml-5"></i>
+                  )}
+                  {editingCategory === cate.id ? (
+                    <div>
+                      <input
+                        className="border border-black bg-transparent lg:ms-4 ms-1 my-5 "
+                        type="text"
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                      />
+                      <SaveEditCategoryButton
+                        handleSaveCategory={handleSaveCategory}
+                        cateId={cate.id}
+                        newCategoryName={newCategoryName}
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex items-center p-5">
+                      <ViewTasksButton
+                        handleViewTask={handleViewTask}
+                        cateId={cate.id}
+                        cate={cate}
+                        isSelected={selectedCategoryId === cate.id}
+                      />
+
+                      <EditDeleteButtons
+                        categoryId={cate.id}
+                        handleEditCategory={handleEditCategory}
+                        openDeleteModal={openDeleteModal}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              className="mt-1 px-1 py-1 items-end lg:px-2 lg:py-1 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-800 text-white ms-1"
+              onClick={handleDeletedb}
+            >
+              Delete Db
+            </button>
+          </div>
+        )}
+
+        <div
+          style={sideMenu ? mainContent : {}}
+          className="lg:w-4/5 w-3/5 h-screen overflow-scroll  overflow-x-hidden  max-h-screen relative "
+        >
           <h1 className="lg:ps-28 ps-12 lg:pt-16 pt-8 font lg:text-5xl text-2xl">
             Organinze and Manage <br /> Your
             <span style={{ color: "#29a2bd" }}> Tasks </span>

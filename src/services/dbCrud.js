@@ -4,24 +4,39 @@ let version = 1;
 
 export const addData = (storeName, data) => {
   return new Promise((resolve) => {
-    let version = parseInt(localStorage.getItem("dbVersion")) || 1;
-    let request = indexedDB.open("myCategory", version + 1);
-
-    request.onupgradeneeded = (event) => {
-      let db = event.target.result;
-      console.log(`Creating ${storeName} store in onupgradeneeded`);
-      if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName, { keyPath: "id" });
-      }
-    };
+    request = indexedDB.open("myCategory", version);
 
     request.onsuccess = () => {
-      let db = request.result;
-      localStorage.setItem("dbVersion", db.version);
-      const tx = db.transaction(storeName, "readwrite");
-      const store = tx.objectStore(storeName);
-      store.add(data);
-      resolve(data);
+      console.log("request.onsuccess - addData", data);
+      db = request.result;
+
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.log(`Creating ${storeName} store`);
+        db.close();
+        const newVersion = db.version + 1;
+        version = newVersion;
+        request = null;
+
+        request = indexedDB.open("myCategory", newVersion);
+        request.onupgradeneeded = (event) => {
+          db = event.target.result;
+          console.log(`Creating ${storeName} store in onupgradeneeded`);
+          db.createObjectStore(storeName, { keyPath: "id" });
+        };
+
+        request.onsuccess = () => {
+          db = request.result;
+          const tx = db.transaction(storeName, "readwrite");
+          const store = tx.objectStore(storeName);
+          store.add(data);
+          resolve(data);
+        };
+      } else {
+        const tx = db.transaction(storeName, "readwrite");
+        const store = tx.objectStore(storeName);
+        store.add(data);
+        resolve(data);
+      }
     };
 
     request.onerror = () => {
@@ -96,7 +111,7 @@ export const getStoreDataForAddingTasks = (storeName, key) => {
 export const updateData = (storeName, key, updatedData) => {
   console.log("updateData called with:", storeName, key, updatedData);
   return new Promise((resolve, reject) => {
-    let request = indexedDB.open("myCategory");
+    request = indexedDB.open("myCategory");
 
     request.onsuccess = () => {
       let db = request.result;
@@ -104,7 +119,7 @@ export const updateData = (storeName, key, updatedData) => {
       if (!db.objectStoreNames.contains(storeName)) {
         console.log(`Creating ${storeName} store`);
         db.close();
-        const newVersion = db.version;
+        const newVersion = db.version + 1;
         version = newVersion;
         request = null;
 
@@ -199,12 +214,11 @@ export const putData = (storeName, data) => {
 
 export const deleteData = (storeName, key) => {
   return new Promise((resolve) => {
-    let version = parseInt(localStorage.getItem("dbVersion")) || 1;
-    let request = indexedDB.open("myCategory", version);
+    request = indexedDB.open("myCategory", version);
 
     request.onsuccess = () => {
       console.log("request.onsuccess - deleteData", key);
-      let db = request.result;
+      db = request.result;
       const tx = db.transaction(storeName, "readwrite");
       const store = tx.objectStore(storeName);
       const res = store.delete(key);
@@ -215,11 +229,6 @@ export const deleteData = (storeName, key) => {
       res.onerror = () => {
         resolve(false);
       };
-    };
-
-    request.onerror = () => {
-      console.log("request.onerror - deleteData", request.error);
-      resolve(false);
     };
   });
 };
