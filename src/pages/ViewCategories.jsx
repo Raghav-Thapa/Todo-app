@@ -129,7 +129,6 @@ const ViewCategories = () => {
               </div>
             ))}
           </div>
-
           <button
             className="mt-10 px-1 py-1 items-end lg:px-2 lg:py-1 inline-flex text-xs leading-5
                       font-semibold rounded-lg bg-sky-800 text-white ms-1"

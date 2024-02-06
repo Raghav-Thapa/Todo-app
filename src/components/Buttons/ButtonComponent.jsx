@@ -30,7 +30,12 @@ export const AddCategoryButton = ({ handleClickAddCategory }) => (
   </button>
 );
 
-export const ViewTasksButton = ({ handleViewTask, cateId, isSelected, cate }) => (
+export const ViewTasksButton = ({
+  handleViewTask,
+  cateId,
+  isSelected,
+  cate,
+}) => (
   <button
     aria-label="view tasks"
     className="lg:ms-10 ms-3"
@@ -51,7 +56,11 @@ export const ViewTasksButton = ({ handleViewTask, cateId, isSelected, cate }) =>
   </button>
 );
 
-export const SaveEditCategoryButton = ({ handleSaveCategory, cateId, newCategoryName }) => (
+export const SaveEditCategoryButton = ({
+  handleSaveCategory,
+  cateId,
+  newCategoryName,
+}) => (
   <button
     aria-label="save edit category"
     className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2"
@@ -63,4 +72,14 @@ export const SaveEditCategoryButton = ({ handleSaveCategory, cateId, newCategory
   </button>
 );
 
-
+export const Buttons = ({ text, arialabel, className, handleFunctions }) => (
+  <button
+    aria-label={arialabel}
+    className={className}
+    onClick={() => {
+      handleFunctions = { handleFunctions };
+    }}
+  >
+    {text}
+  </button>
+);
