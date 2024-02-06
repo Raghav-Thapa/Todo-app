@@ -193,32 +193,51 @@ export function TextInput({
   );
 }
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { CategorySchema } from "../../Form/formSchema";
+
 export function CategoryInput({
   inputCategory,
   handleCategoryChange,
   handleAddCategory,
   setShowAddCategory,
+  error,
 }) {
+
+    const {
+      handleSubmit,
+      formState: { errors },
+      setError,
+    } = useForm({ resolver: zodResolver(CategorySchema) });
+
+  const onSubmit = (data) => {
+    console.log("SUCCESS", data);
+  };
+
   return (
-    <div className="flex items-center m-3 justify-start space-x-2 ">
-      <input
-        className="lg:w-3/4 w-20 border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
-        type="text"
-        name="cate"
-        placeholder="create new category"
-        value={inputCategory}
-        onChange={handleCategoryChange}
-      />
-      <button
-        className="px-2 py-1 lg:px-5 lg:py-2 inline-flex text-xs leading-5
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex items-center m-3 justify-start space-x-2 ">
+        <input
+          className="lg:w-3/4 w-20 border border-black rounded-md px-2 py-1 bg-transparent autofill:bg-transparent"
+          type="text"
+          name="cate"
+          placeholder="create new category"
+          value={inputCategory}
+          onChange={handleCategoryChange}
+        />
+        {errors && <span className="error-message">{errors.message}</span>}
+        <button
+          className="px-2 py-1 lg:px-5 lg:py-2 inline-flex text-xs leading-5
                       font-semibold rounded-lg bg-sky-600 text-white ms-1"
-        onClick={() => {
-          handleAddCategory();
-          setShowAddCategory(false);
-        }}
-      >
-        Add
-      </button>
-    </div>
+          onClick={() => {
+            handleAddCategory();
+            setShowAddCategory(false);
+          }}
+        >
+          Add
+        </button>
+      </div>
+    </form>
   );
 }

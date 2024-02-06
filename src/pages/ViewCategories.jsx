@@ -5,6 +5,7 @@ import todoImg from "../assets/todo.png";
 import { CategoryInput } from "../components/Input/Textinput";
 import FlashMessage from "../components/FlashMessage/FlashMessageComponent";
 import { deleteDb } from "../services/db";
+import { NavLink } from "react-router-dom";
 import {
   EditDeleteButtons,
   ViewTasksButton,
@@ -63,6 +64,7 @@ const ViewCategories = () => {
       {/* <h1>All Categories</h1> */}
       <div className="flex">
         <div className="lg:w-1/5 w-2/5 h-screen shadow-2xl">
+          <NavLink to="/form">Go to form</NavLink>
           <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
             Todo List
           </h1>
