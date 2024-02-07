@@ -71,7 +71,7 @@ const ViewCategories = () => {
   return (
     <>
       {/* <h1>All Categories</h1> */}
-      <div className="flex ">
+      <div className="flex">
         {sideMenu ? (
           <div className="mt-3 ms-1 h-16 shadow-2xl w-15 translate-y-8 duration-700">
             <button
@@ -175,7 +175,7 @@ const ViewCategories = () => {
 
         <div
           style={sideMenu ? mainContent : {}}
-          className="lg:w-4/5 w-3/5 h-screen overflow-scroll  overflow-x-hidden  max-h-screen relative "
+          className="lg:w-4/5 w-3/5 h-screen overflow-scroll overflow-x-hidden max-h-screen relative"
         >
           <h1 className="lg:ps-28 ps-12 lg:pt-16 pt-8 font lg:text-5xl text-2xl">
             Organinze and Manage <br /> Your
