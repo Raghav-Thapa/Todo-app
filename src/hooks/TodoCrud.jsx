@@ -35,7 +35,6 @@ export default function useTodo() {
     } else {
       setCategoryToDelete(categoryId);
     }
-    // console.log(isDeleteModalOpen);
   };
 
   const closeDeleteModal = () => {
