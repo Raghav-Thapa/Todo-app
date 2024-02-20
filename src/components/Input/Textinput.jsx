@@ -85,8 +85,17 @@ export function TextInput({
       {/* <h2>{cate}</h2> */}
       {isModalOpen && (
         <Modal open={isModalOpen}>
+          <div className="lg:ms-52 mb-5">
+            <button
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            >
+              <i className="fa-solid fa-circle-xmark"></i>
+            </button>
+          </div>
           <input
-            className="border-4"
+            className="border-2 mb-4"
             type="text"
             name="todo"
             value={inputTask}
@@ -95,7 +104,7 @@ export function TextInput({
           />
           <button
             className="ms-3 px-2 inline-flex text-xs leading-5
-                font-semibold rounded-full bg-green-100 text-green-800"
+                font-semibold rounded-full bg-blue-100 text-blue-800"
             onClick={() => {
               handleCreateTask();
               setIsModalOpen(false);
@@ -136,11 +145,17 @@ export function TextInput({
                       font-semibold rounded-lg bg-sky-600 text-white ms-1 "
                     onClick={() => {
                       handleSaveTask(parent, todo.id, newTaskName);
-                      // console.log('from  button click', parent, todo.id, newTaskName)
                       setEditing(null);
                     }}
                   >
                     Save
+                  </button>
+                  <button
+                    className="px-5 py-2 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-red-600 text-white ms-1 "
+                    onClick={() => setEditing(null)}
+                  >
+                    Cancel
                   </button>
                 </div>
               ) : (
@@ -263,7 +278,7 @@ export function CategoryInput({
         onChange={handleCategoryChange}
       />
       <button
-        className="px-2 py-1 lg:px-5 lg:py-2 inline-flex text-xs leading-5
+        className="px-2 py-1 lg:px-3 lg:py-1 inline-flex text-xs leading-5
                       font-semibold rounded-lg bg-sky-600 text-white ms-1"
         onClick={() => {
           handleAddCategory();
@@ -271,6 +286,15 @@ export function CategoryInput({
         }}
       >
         Add
+      </button>
+      <button
+        className="px-2 py-1 lg:px-3 lg:py-1 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-red-600 text-white ms-1"
+        onClick={() => {
+          setShowAddCategory(false);
+        }}
+      >
+        Cancel
       </button>
     </div>
   );

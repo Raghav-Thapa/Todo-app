@@ -73,7 +73,7 @@ const ViewCategories = () => {
       {/* <h1>All Categories</h1> */}
       <div className="flex">
         {sideMenu ? (
-          <div className="mt-3 ms-1 h-16 shadow-2xl w-15 translate-y-8 duration-700">
+          <div className="mt-3 ms-1 h-16 shadow-2xl w-15 duration-100">
             <button
               onClick={() => {
                 setSideMenu(false);
@@ -133,13 +133,14 @@ const ViewCategories = () => {
                   {editingCategory === cate.id ? (
                     <div>
                       <input
-                        className="border border-black bg-transparent lg:ms-4 ms-1 my-5 "
+                        className="border border-black bg-transparent w-32 lg:ms-4 ms-1 my-5 "
                         type="text"
                         value={newCategoryName}
                         onChange={(e) => setNewCategoryName(e.target.value)}
                       />
                       <SaveEditCategoryButton
                         handleSaveCategory={handleSaveCategory}
+                        setEditingCategory={setEditingCategory}
                         cateId={cate.id}
                         newCategoryName={newCategoryName}
                       />

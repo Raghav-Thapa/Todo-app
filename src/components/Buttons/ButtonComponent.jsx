@@ -49,16 +49,25 @@ export const SaveEditCategoryButton = ({
   handleSaveCategory,
   cateId,
   newCategoryName,
+  setEditingCategory,
 }) => (
-  <button
-    aria-label="save edit category"
-    className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2"
-    onClick={() => {
-      handleSaveCategory(cateId, newCategoryName);
-    }}
-  >
-    Save
-  </button>
+  <>
+    <button
+      aria-label="save edit category"
+      className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-200 text-green-800 ms-2"
+      onClick={() => {
+        handleSaveCategory(cateId, newCategoryName);
+      }}
+    >
+      Save
+    </button>
+    <button
+      className="px-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-800 ms-2"
+      onClick={() => setEditingCategory(null)}
+    >
+      Cancel
+    </button>
+  </>
 );
 
 export const Buttons = ({ text, arialabel, className, handleFunctions }) => (

@@ -64,15 +64,13 @@ export const getStoreData = (storeName) => {
         resolve(getAllRequest.result);
       };
 
-      getAllRequest.onerror = (event) => {
-        reject(
-          `Error fetching data from ${storeName}: ${event.target.errorCode}`
-        );
+      getAllRequest.onerror = () => {
+        reject(getAllRequest.error);
       };
     };
 
-    request.onerror = (event) => {
-      reject(`Error opening database: ${event.target.errorCode}`);
+    request.onerror = () => {
+      reject(request.error);
     };
   });
 };
@@ -233,7 +231,11 @@ export const deleteData = (storeName, key) => {
   });
 };
 
-export const editCategory = (storeName, key, updatedData) => {
+export const editCategory = (
+  storeName,
+  key,
+  updatedData
+) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -268,7 +270,11 @@ export const editCategory = (storeName, key, updatedData) => {
   });
 };
 
-export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
+export const updateCategoryName = (
+  storeName,
+  categoryId,
+  newCategoryName
+) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -305,7 +311,12 @@ export const updateCategoryName = (storeName, categoryId, newCategoryName) => {
   });
 };
 
-export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
+export const updateTaskName = (
+  storeName,
+  categoryId,
+  taskId,
+  newTaskName
+) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -322,7 +333,9 @@ export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
         const data = category.result;
         console.log("success is running");
         // console.log("data to edit is ",data)
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find(
+          (task) => task.id === taskId
+        );
 
         if (task) {
           task.todo = newTaskName;
@@ -350,7 +363,12 @@ export const updateTaskName = (storeName, categoryId, taskId, newTaskName) => {
   });
 };
 
-export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
+export const updateTaskStatus = (
+  storeName,
+  categoryId,
+  taskId,
+  status
+) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
     console.log("from db", storeName, taskId, status);
@@ -366,7 +384,9 @@ export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
 
       category.onsuccess = () => {
         const data = category.result;
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find(
+          (task) => task.id === taskId
+        );
 
         if (task) {
           task.status = status;
@@ -392,7 +412,11 @@ export const updateTaskStatus = (storeName, categoryId, taskId, status) => {
   });
 };
 
-export const getTask = (storeName, categoryId, taskId) => {
+export const getTask = (
+  storeName,
+  categoryId,
+  taskId
+) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
 
@@ -416,7 +440,9 @@ export const getTask = (storeName, categoryId, taskId) => {
           return;
         }
 
-        const task = data.tasks.find((task) => task.id === taskId);
+        const task = data.tasks.find(
+          (task) => task.id === taskId
+        );
 
         if (task) {
           resolve(task);

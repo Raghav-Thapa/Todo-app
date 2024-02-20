@@ -1,5 +1,5 @@
-let request
-let db
+let request;
+let db;
 let version = 1;
 
 export const Stores = {
@@ -34,6 +34,5 @@ export const initDB = () => {
 };
 
 export const deleteDb = () => {
-  indexedDB.deleteDatabase("myCategory");
-  localStorage.removeItem("dbVersion");
+  indexedDB.deleteDatabase("myDBB");
 };
