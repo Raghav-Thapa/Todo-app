@@ -34,5 +34,5 @@ export const initDB = () => {
 };
 
 export const deleteDb = () => {
-  indexedDB.deleteDatabase("myDBB");
+  indexedDB.deleteDatabase("myCategory");
 };

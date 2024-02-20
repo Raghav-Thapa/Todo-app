@@ -68,6 +68,7 @@ export default function useTodo() {
     // console.log(category)
     try {
       const res = addData(Stores.Categories, newCategory);
+      // localStorage.setItem(newCategory)
       flashMessageHandler("success", "Category added");
     } catch (err) {
       console.log(err);
