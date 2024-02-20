@@ -6,7 +6,7 @@ export const EditDeleteButtons = ({
   openDeleteModal,
 }) => {
   return (
-    <div>
+    <div className="me-9">
       <button
         aria-label="edit category"
         className="lg:me-3 me-1 ms-1 lg:ms-3 inline-flex lg:text-lg text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800 p-1"

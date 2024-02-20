@@ -51,6 +51,9 @@ export default function useTodo() {
       setFlashMessageType("");
     }, 3000);
   };
+  function getId() {
+    return Date.now().toString(36);
+  }
 
   const handleAddCategory = () => {
     if (inputCategory.trim() === "") {
@@ -60,10 +63,14 @@ export default function useTodo() {
     const newCategory = {
       cate: inputCategory,
       tasks: [],
-      id: Math.floor(Math.random().toFixed(2) * 100),
+      id: getId(),
       inputTask: "",
     };
-    setCategory([...category, newCategory]);
+   let updatedCategories = [...category, newCategory];
+   updatedCategories = updatedCategories.sort((a, b) =>
+     b.id.localeCompare(a.id)
+   );
+   setCategory(updatedCategories);
     setInputCategory("");
     // console.log(category)
     try {
@@ -73,6 +80,7 @@ export default function useTodo() {
     } catch (err) {
       console.log(err);
     }
+    return newCategory.id;
   };
 
   const handleCategoryChange = (event) => {
@@ -115,7 +123,8 @@ export default function useTodo() {
   };
 
   const loadCategories = async () => {
-    const categories = await getStoreData(Stores.Categories);
+    let categories = await getStoreData(Stores.Categories);
+    categories = categories.sort((a, b) => b.id.localeCompare(a.id));
     // console.log(categories)
     setCategory(categories);
   };

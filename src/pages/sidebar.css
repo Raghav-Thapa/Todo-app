@@ -37,10 +37,15 @@ body {
 .todoImage {
   margin-left: 40%;
   margin-top: -10%;
+  float: right;
 }
 
 .modelStyle {
-  background-image: linear-gradient(to right, #a496a7, rgb(200, 196, 196));
+  background-image: linear-gradient(
+    to right,
+    #447c81b6,
+    rgba(129, 144, 148, 0.799)
+  );
 }
 
 .flashMessage.error {

@@ -1,6 +1,6 @@
 import useTodo from "../hooks/TodoCrud";
 import { TextInput } from "../components/Input/Textinput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import todoImg from "../assets/todo.png";
 import { CategoryInput } from "../components/Input/Textinput";
 import FlashMessage from "../components/FlashMessage/FlashMessageComponent";
@@ -49,10 +49,18 @@ const ViewCategories = () => {
     setSelectedCategoryId(id);
   };
   const [showAddCategory, setShowAddCategory] = useState(false);
+  const [prevCategoryLength, setPrevCategoryLength] = useState(0);
 
-  const handleClickAddCategory = () => {
+  const handleClickAddCategory = async () => {
     setShowAddCategory(true);
   };
+  useEffect(() => {
+    if (category.length > prevCategoryLength) {
+      setSelectedCategoryId(category[0].id);
+      setViewTask(true);
+    }
+    setPrevCategoryLength(category.length);
+  }, [category]);
 
   const handleDeletedb = () => {
     deleteDb();
@@ -122,14 +130,17 @@ const ViewCategories = () => {
             <div className="categoryList my-4 lg:text-lg text-sm">
               {category.map((cate) => (
                 <div
-                  className={`my-1 ms-4 eachCategory flex flex-row items-center align-bottom`}
+                  className={`my-1 ms-4 eachCategory flex flex-row items-center`}
                   key={cate.id}
                 >
-                  {selectedCategoryId === cate.id ? (
-                    <i className="fa-solid fa-square-check ml-5"></i>
-                  ) : (
-                    <i className="fa-regular fa-square-check ml-5"></i>
-                  )}
+                  {" "}
+                  <button onClick={() => handleViewTask(cate.id)}>
+                    {selectedCategoryId === cate.id ? (
+                      <i className="fa-solid fa-square-check ml-5"></i>
+                    ) : (
+                      <i className="fa-regular fa-square ml-5"></i>
+                    )}
+                  </button>
                   {editingCategory === cate.id ? (
                     <div>
                       <input
@@ -146,27 +157,30 @@ const ViewCategories = () => {
                       />
                     </div>
                   ) : (
-                    <div className="flex  p-5">
-                      <ViewTasksButton
-                        handleViewTask={handleViewTask}
-                        cateId={cate.id}
-                        cate={cate}
-                        isSelected={selectedCategoryId === cate.id}
-                      />
-                      
+                    <div className="flex justify-between items-center w-full">
+                      <div className="p-4">
+                        <ViewTasksButton
+                          handleViewTask={handleViewTask}
+                          cateId={cate.id}
+                          cate={cate}
+                          isSelected={selectedCategoryId === cate.id}
+                        />
+                      </div>
+                      <div>
                         <EditDeleteButtons
                           categoryId={cate.id}
                           handleEditCategory={handleEditCategory}
                           openDeleteModal={openDeleteModal}
                         />
+                      </div>
                     </div>
                   )}
                 </div>
               ))}
             </div>
             <button
-              className="mt-1 px-1 py-1 items-end lg:px-2 lg:py-1 inline-flex text-xs leading-5
-                      font-semibold rounded-lg bg-sky-800 text-white ms-1"
+              className="px-2 py-1 lg:px-3 lg:py-1 inline-flex text-xs leading-5
+                      font-semibold rounded-lg bg-sky-600 text-white ms-1"
               onClick={handleDeletedb}
             >
               Delete Db
@@ -183,7 +197,7 @@ const ViewCategories = () => {
             <span style={{ color: "#29a2bd" }}> Tasks </span>
           </h1>
           <img
-            className="todoImage w-24 h-24 lg:w-80 lg:h-80 mx-10 my-20 lg:mx-96 absolute"
+            className="todoImage w-24 h-24 lg:w-52 lg:h-52 mx-10 lg:p-10 absolute"
             src={todoImg}
             alt=""
           />
