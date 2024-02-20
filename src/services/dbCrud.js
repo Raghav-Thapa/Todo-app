@@ -53,7 +53,6 @@ export const addData = (storeName, data) => {
 export const getStoreData = (storeName) => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("myCategory");
-
     request.onsuccess = () => {
       const db = request.result;
       const tx = db.transaction(storeName, "readonly");

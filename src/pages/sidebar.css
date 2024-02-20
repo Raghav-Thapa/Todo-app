@@ -57,11 +57,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 78%;
-  margin-top: -13%;
+  margin-left: 82%;
+  margin-top: -8%;
   position: fixed;
   float: right;
   z-index: 10;
+}
+
+@media (max-width: 1600px) {
+  .flashMessage {
+    margin-top: -10%;
+    margin-left: 77%;
+  }
 }
 
 .flashMessage.success {
@@ -69,5 +76,5 @@ body {
 }
 
 .flashMessage.warn {
-  background-image: linear-gradient(to right, #797d2d, rgb(203, 198, 45));
+  /* background-image: linear-gradient(to right, #797d2d, rgb(203, 198, 45)); */
 }

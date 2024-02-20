@@ -146,19 +146,19 @@ const ViewCategories = () => {
                       />
                     </div>
                   ) : (
-                    <div className="flex items-center p-5">
+                    <div className="flex  p-5">
                       <ViewTasksButton
                         handleViewTask={handleViewTask}
                         cateId={cate.id}
                         cate={cate}
                         isSelected={selectedCategoryId === cate.id}
                       />
-
-                      <EditDeleteButtons
-                        categoryId={cate.id}
-                        handleEditCategory={handleEditCategory}
-                        openDeleteModal={openDeleteModal}
-                      />
+                      
+                        <EditDeleteButtons
+                          categoryId={cate.id}
+                          handleEditCategory={handleEditCategory}
+                          openDeleteModal={openDeleteModal}
+                        />
                     </div>
                   )}
                 </div>
