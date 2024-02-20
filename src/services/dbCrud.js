@@ -17,7 +17,7 @@ export const addData = (storeName, data) => {
         version = newVersion;
         request = null;
 
-        request = indexedDB.open("myCategory", newVersion);
+        request = indexedDB.open("myCategory", version);
         request.onupgradeneeded = (event) => {
           db = event.target.result;
           console.log(`Creating ${storeName} store in onupgradeneeded`);
