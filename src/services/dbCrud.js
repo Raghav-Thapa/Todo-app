@@ -52,20 +52,52 @@ export const addData = (storeName, data) => {
 
 export const getStoreData = (storeName) => {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("myCategory");
+    let request = indexedDB.open("myCategory");
+    let db;
+    let version;
+
     request.onsuccess = () => {
-      const db = request.result;
-      const tx = db.transaction(storeName, "readonly");
-      const store = tx.objectStore(storeName);
-      const getAllRequest = store.getAll();
+      db = request.result;
 
-      getAllRequest.onsuccess = () => {
-        resolve(getAllRequest.result);
-      };
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.close();
+        const newVersion = db.version + 1;
+        version = newVersion;
+        request = null;
 
-      getAllRequest.onerror = () => {
-        reject(getAllRequest.error);
-      };
+        request = indexedDB.open("myCategory", version);
+        request.onupgradeneeded = (event) => {
+          db = event.target.result;
+          db.createObjectStore(storeName, { keyPath: "id" });
+        };
+
+        request.onsuccess = () => {
+          db = request.result;
+          const tx = db.transaction(storeName, "readonly");
+          const store = tx.objectStore(storeName);
+          const getAllRequest = store.getAll();
+
+          getAllRequest.onsuccess = () => {
+            resolve(getAllRequest.result);
+          };
+
+          getAllRequest.onerror = () => {
+            reject(getAllRequest.error);
+          };
+        };
+      } else {
+        const tx = db.transaction(storeName, "readonly");
+        const store = tx.objectStore(storeName);
+        const getAllRequest = store.getAll();
+
+        getAllRequest.onsuccess = () => {
+          resolve(getAllRequest.result);
+        };
+
+        getAllRequest.onerror = () => {
+          reject(getAllRequest.error);
+        };
+      }
     };
 
     request.onerror = () => {
