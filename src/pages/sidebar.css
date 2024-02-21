@@ -81,5 +81,5 @@ body {
 }
 
 .flashMessage.warn {
-  /* background-image: linear-gradient(to right, #797d2d, rgb(203, 198, 45)); */
+  background-image: linear-gradient(to right, #797d2d, rgb(203, 198, 45));
 }

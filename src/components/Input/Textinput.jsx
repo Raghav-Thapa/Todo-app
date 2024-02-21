@@ -21,6 +21,8 @@ export function TextInput({
 
   const [taskStatus, setTaskStatus] = useState({});
 
+  const [showGrid, setShowGrid] = useState(false);
+
   const handleClickTaskStatus = async (id, statusValue) => {
     try {
       await updateTaskStatus("categories", parent, id, statusValue);
@@ -28,6 +30,10 @@ export function TextInput({
     } catch (error) {
       console.error("Failed to update task status:", error);
     }
+  };
+
+  const handleShowGrid = () => {
+    setShowGrid((prevShowGrid) => !prevShowGrid);
   };
 
   const StatusButton = ({
@@ -114,8 +120,15 @@ export function TextInput({
           </button>
         </Modal>
       )}
+
       <h1 className="lg:ms-10 ms-5 mt-8 text-xl lg:mt-16 lg:text-3xl">
-        {cate}{" "}
+        <span className="me-3">
+          <button onClick={handleShowGrid}>
+            <i className="fa-solid fa-list fa-2xs"></i>
+          </button>
+        </span>
+        {cate}
+
         <button
           className="float-right me-72 px-2 py-1 lg:px-4 lg:py-2 inline-flex text-xs leading-5
                       font-semibold rounded-lg bg-sky-600 text-white ms-1"
@@ -124,7 +137,7 @@ export function TextInput({
           Add task
         </button>
       </h1>
-      <ul className="mb-5 lg:mt-8 mt-5">
+      <ul className={`mb-5 lg:mt-8 mt-5 ${showGrid ? "grid grid-cols-4 me-10 gap-4" : ""}`}>
         {tasks
           .sort((a, b) => {
             if (
@@ -143,7 +156,7 @@ export function TextInput({
           })
           .map((todo) => (
             <li
-              className="task w-4/5 border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5"
+              className={`task w-4/5 ${showGrid ? "w-full" : ""} border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5 `}
               key={todo.id}
             >
               <div className="flex ms-1">
@@ -184,11 +197,12 @@ export function TextInput({
                   </div>
                 ) : (
                   <span
-                    className={
-                      taskStatus[todo.id] === "completed"
-                        ? "line-through ms-3"
-                        : "ms-3"
-                    }
+                    className={`${showGrid ? "truncate " : ""}
+                      ${
+                        taskStatus[todo.id] === "completed"
+                          ? "line-through "
+                          : ""
+                      }ms-3 w-16`}
                   >
                     {todo.todo}
                   </span>

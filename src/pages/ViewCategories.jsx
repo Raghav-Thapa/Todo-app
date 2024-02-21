@@ -197,7 +197,7 @@ const ViewCategories = () => {
             <span style={{ color: "#29a2bd" }}> Tasks </span>
           </h1>
           <img
-            className="todoImage w-24 h-24 lg:w-52 lg:h-52 mx-10 lg:p-10 absolute"
+            className="todoImage w-24 h-24 lg:w-52 lg:h-52 mx-10 lg:mx-96 lg:p-10 absolute"
             src={todoImg}
             alt=""
           />
