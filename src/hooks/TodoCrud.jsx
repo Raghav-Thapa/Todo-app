@@ -54,6 +54,7 @@ export default function useTodo() {
   function getId() {
     return Date.now().toString(36);
   }
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddCategory = () => {
     if (inputCategory.trim() === "") {
@@ -66,20 +67,25 @@ export default function useTodo() {
       id: getId(),
       inputTask: "",
     };
-   let updatedCategories = [...category, newCategory];
-   updatedCategories = updatedCategories.sort((a, b) =>
-     b.id.localeCompare(a.id)
-   );
-   setCategory(updatedCategories);
+    let updatedCategories = [...category, newCategory];
+    updatedCategories = updatedCategories.sort((a, b) =>
+      b.id.localeCompare(a.id)
+    );
+    setCategory(updatedCategories);
     setInputCategory("");
     // console.log(category)
-    try {
-      const res = addData(Stores.Categories, newCategory);
-      // localStorage.setItem(newCategory)
-      flashMessageHandler("success", "Category added");
-    } catch (err) {
-      console.log(err);
-    }
+    setIsLoading(true);
+    addData(Stores.Categories, newCategory)
+      .then(() => {
+        setIsLoading(false);
+        flashMessageHandler("success", "Category added");
+        loadCategories();
+      })
+      .catch((err) => {
+        // setIsLoading(false);
+        console.error(err);
+      });
+
     return newCategory.id;
   };
 
@@ -246,6 +252,7 @@ export default function useTodo() {
     openDeleteModal,
     setIsDeleteModalOpen,
     setIsModalOpen,
+    isLoading,
     DeleteConfirmationModal: (
       <DeleteConfirmationModal
         open={isDeleteModalOpen}

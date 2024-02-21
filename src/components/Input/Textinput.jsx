@@ -1,6 +1,7 @@
 import Modal from "../Modal/Modal";
 import { useState, useEffect } from "react";
 import { updateTaskStatus, getTask } from "../../services/dbCrud";
+import ShowTaskModal from "../Modal/ShowTaskModal";
 
 export function TextInput({
   handleChange,
@@ -18,10 +19,12 @@ export function TextInput({
   const [editing, setEditing] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [taskDetailModal, setTaskDetailModal] = useState(false);
   const [taskStatus, setTaskStatus] = useState({});
 
   const [showGrid, setShowGrid] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const handleClickTaskStatus = async (id, statusValue) => {
     try {
@@ -34,7 +37,27 @@ export function TextInput({
 
   const handleShowGrid = () => {
     setShowGrid((prevShowGrid) => !prevShowGrid);
+    setTaskDetailModal(false);
   };
+
+  const handleTaskModal = async (id) => {
+    try {
+      const task = await getTask("categories", parent, id);
+      setSelectedTask(task);
+      setSelectedTaskId(id);
+      setTaskDetailModal(true);
+    } catch (error) {
+      console.error("Failed to fetch task:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTaskId) {
+      getTask("categories", parent, selectedTaskId)
+        .then((task) => setSelectedTask(task))
+        .catch((error) => console.error("Failed to fetch task:", error));
+    }
+  }, [selectedTaskId]);
 
   const StatusButton = ({
     status,
@@ -88,7 +111,6 @@ export function TextInput({
 
   return (
     <div className="">
-      {/* <h2>{cate}</h2> */}
       {isModalOpen && (
         <Modal open={isModalOpen}>
           <div className="lg:ms-52 mb-5">
@@ -137,7 +159,11 @@ export function TextInput({
           Add task
         </button>
       </h1>
-      <ul className={`mb-5 lg:mt-8 mt-5 ${showGrid ? "grid grid-cols-4 me-10 gap-4" : ""}`}>
+      <ul
+        className={`mb-5 lg:mt-8 mt-5 ${
+          showGrid ? "grid grid-cols-4 me-10 gap-4" : ""
+        }`}
+      >
         {tasks
           .sort((a, b) => {
             if (
@@ -156,9 +182,24 @@ export function TextInput({
           })
           .map((todo) => (
             <li
-              className={`task w-4/5 ${showGrid ? "w-full" : ""} border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5 `}
+              className={`task w-4/5 ${
+                showGrid ? "w-full" : ""
+              } border-2 p-3 ms-5 rounded-xl shadow-xl md mb-5 `}
               key={todo.id}
             >
+              {showGrid && selectedTask && taskDetailModal && (
+                <ShowTaskModal
+                  open={taskDetailModal}
+                  selectedTask={selectedTask}
+                  setTaskDetailModal={setTaskDetailModal}
+                  handleClick={handleClickTaskStatus}
+                  taskStatus={taskStatus}
+                  todo={todo}
+                  handleDeleteTask={handleDeleteTask}
+                  handleEditTask={handleEditTask}
+                  setEditing={setEditing}
+                ></ShowTaskModal>
+              )}
               <div className="flex ms-1">
                 <input
                   onClick={() => handleClickTaskStatus(todo.id, "completed")}
@@ -197,12 +238,13 @@ export function TextInput({
                   </div>
                 ) : (
                   <span
-                    className={`${showGrid ? "truncate " : ""}
+                    onClick={() => handleTaskModal(todo.id)}
+                    className={`${showGrid ? "truncate w-16 " : ""}
                       ${
                         taskStatus[todo.id] === "completed"
                           ? "line-through "
                           : ""
-                      }ms-3 w-16`}
+                      }ms-3 cursor-pointer`}
                   >
                     {todo.todo}
                   </span>

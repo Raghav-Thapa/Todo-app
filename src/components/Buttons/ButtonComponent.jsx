@@ -81,3 +81,35 @@ export const Buttons = ({ text, arialabel, className, handleFunctions }) => (
     {text}
   </button>
 );
+
+   export const StatusButton = ({
+     status,
+     handleClick,
+     taskStatus,
+     todo,
+     activeStyle,
+     inactiveStyle,
+     disabledStyle,
+   }) => {
+     const isTaskComplete = taskStatus[todo.id] === "completed";
+     const isCurrentButtonComplete = status === "completed";
+     const isDisabled = isTaskComplete && !isCurrentButtonComplete;
+
+     let buttonStyle;
+     if (isDisabled) {
+       buttonStyle = disabledStyle;
+     } else {
+       buttonStyle =
+         taskStatus[todo.id] === status ? activeStyle : inactiveStyle;
+     }
+
+     return (
+       <button
+         onClick={() => handleClick(todo.id, status)}
+         className={buttonStyle}
+         disabled={isDisabled}
+       >
+         {status}
+       </button>
+     );
+   };

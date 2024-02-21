@@ -38,6 +38,7 @@ const ViewCategories = () => {
     editingCategory,
     newCategoryName,
     setNewCategoryName,
+    isLoading,
   } = useTodo();
 
   const [viewTask, setViewTask] = useState(false);
@@ -64,6 +65,7 @@ const ViewCategories = () => {
 
   const handleDeletedb = () => {
     deleteDb();
+    window.location.reload();
   };
 
   const [sideMenu, setSideMenu] = useState(false);
@@ -98,7 +100,6 @@ const ViewCategories = () => {
             <h1 className="text-center lg:py-16 py-10 font lg:text-5xl text-3xl">
               Todo List
             </h1>
-
             <h3 className="lg:text-2xl text-lg fontt">
               <button onClick={handleSideMenu}>
                 <i className="lg:me-5 lg:ms-8 ms-2 me-2 fa-solid fa-list"></i>
@@ -114,7 +115,6 @@ const ViewCategories = () => {
                 flashMessageType={flashMessageType}
               />
             )}
-
             <div className="lg:ms-2">
               {showAddCategory && (
                 <CategoryInput
@@ -126,7 +126,6 @@ const ViewCategories = () => {
                 />
               )}
             </div>
-
             <div className="categoryList my-4 lg:text-lg text-sm">
               {category.map((cate) => (
                 <div
@@ -180,11 +179,20 @@ const ViewCategories = () => {
             </div>
             <button
               className="px-2 py-1 lg:px-3 lg:py-1 inline-flex text-xs leading-5
-                      font-semibold rounded-lg bg-sky-600 text-white ms-1"
+                      font-semibold rounded-lg bg-sky-600 text-white ms-2"
               onClick={handleDeletedb}
             >
               Delete Db
             </button>
+
+            {isLoading && (
+              <>
+                <h1 className="ms-2 mt-3 font-serif font-bold text-sm text-yellow-800">
+                  Initializing DB
+                  <i className="ms-2 fa-solid fa-spinner fa-spin-pulse"></i>
+                </h1>
+              </>
+            )}
           </div>
         )}
 
