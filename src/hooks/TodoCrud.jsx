@@ -93,40 +93,50 @@ export default function useTodo() {
     setInputCategory(event.target.value);
   };
 
-  const handleCreateTask = async (categoryId) => {
-    const categoryToTest = category.find((cat) => cat.id === categoryId);
-    if (categoryToTest.inputTask.trim() === "") {
-      flashMessageHandler("error", "Please enter a task");
-      return;
-    }
-    const newTask = {
-      id: Math.floor(Math.random().toFixed(2) * 100),
-      todo: category.find((cat) => cat.id === categoryId).inputTask,
-      status: "pending",
-    };
-    setCategory(
-      category.map((cat) =>
-        cat.id === categoryId
-          ? { ...cat, tasks: [...cat.tasks, newTask], inputTask: "" }
-          : cat
-      )
-    );
-
-    const categoryToUpdate = await getStoreDataForAddingTasks(
-      Stores.Categories,
-      categoryId
-    );
-    console.log("Category to update:", categoryToUpdate);
-    if (categoryToUpdate) {
-      categoryToUpdate.tasks.push(newTask);
-      console.log("Updated category:", categoryToUpdate);
-      await updateData(Stores.Categories, categoryId, categoryToUpdate);
-      flashMessageHandler("success", "Task added");
-    } else {
-      console.error(`Category with id ${categoryId} not found`);
-    }
-    setIsModalOpen(false);
+const handleCreateTask = async (categoryId) => {
+  const categoryToTest = category.find((cat) => cat.id === categoryId);
+  if (categoryToTest.inputTask.trim() === "") {
+    flashMessageHandler("error", "Please enter a task");
+    return;
+  }
+  const newTask = {
+    id: getId(),
+    todo: category.find((cat) => cat.id === categoryId).inputTask,
+    status: "pending",
   };
+
+  setCategory(
+    category.map((cat) =>
+      cat.id === categoryId
+        ? {
+            ...cat,
+            tasks: [...cat.tasks, newTask].sort((a, b) =>
+              b.id.localeCompare(a.id)
+            ),
+            inputTask: "",
+          }
+        : cat
+    )
+  );
+
+  const categoryToUpdate = await getStoreDataForAddingTasks(
+    Stores.Categories,
+    categoryId
+  );
+  console.log("Category to update:", categoryToUpdate);
+  if (categoryToUpdate) {
+    categoryToUpdate.tasks.push(newTask);
+    categoryToUpdate.tasks = categoryToUpdate.tasks.sort((a, b) =>
+      b.id.localeCompare(a.id)
+    );
+    console.log("Updated category:", categoryToUpdate);
+    await updateData(Stores.Categories, categoryId, categoryToUpdate);
+    flashMessageHandler("success", "Task added");
+  } else {
+    console.error(`Category with id ${categoryId} not found`);
+  }
+  setIsModalOpen(false);
+};
 
   const loadCategories = async () => {
     let categories = await getStoreData(Stores.Categories);
